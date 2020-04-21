@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>webpack-qr</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+
+    <h1>jsQR Demo</h1>
+    <a id="githubLink" href="https://github.com/cozmo/jsQR">See jsQR on Github</a>
+    <p>Webpacked JavaScript QR code decoding library.</p>
+    <div id="loadingMessage">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>
+    <canvas id="canvas" hidden></canvas>
+    <div id="output" hidden>
+      <div id="outputMessage">No QR code detected.</div>
+      <div hidden><b>Data:</b> <span id="outputData"></span></div>
+    </div>
+    
+    <script src="./bundle.js"></script>
+  </body>
+</html>

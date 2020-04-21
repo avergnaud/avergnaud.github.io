@@ -1,0 +1,163 @@
+body {
+  font-family: "PT Sans", sans-serif;
+  min-height: 740px;
+
+  /*
+    background: rgb(215, 215, 215);
+    background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 500, from(rgb(240, 240, 240)), to(rgb(190, 190, 190)));
+    background: -webkit-radial-gradient(rgb(240, 240, 240), rgb(190, 190, 190));
+    background:    -moz-radial-gradient(rgb(240, 240, 240), rgb(190, 190, 190));
+    background:     -ms-radial-gradient(rgb(240, 240, 240), rgb(190, 190, 190));
+    background:      -o-radial-gradient(rgb(240, 240, 240), rgb(190, 190, 190));
+    background:         radial-gradient(rgb(240, 240, 240), rgb(190, 190, 190));
+    */
+    background: linear-gradient(to top right, rgb(240, 240, 240), #5e6b78);
+
+  /*background: linear-gradient(#1f262f, #848688, #f5f4f4);*/
+  /*background: linear-gradient(#272826, #848688, #f5f4f4);*/
+
+}
+
+.absolute {
+  z-index: 1000;
+  position: absolute;
+}
+
+.top {
+  top: 15px;
+}
+
+.bottom {
+  bottom: 15px;
+}
+
+.droite {
+  right: 15px;
+}
+
+.gauche {
+  left: 15px;
+}
+.pointer-auto {
+  pointer-events: auto;
+}
+
+.absolute img {
+  height: 60px;
+}
+
+div .step-nn:not(:first-child):before {
+  content: ">";
+  left: 0;
+  display: inline-block;
+  transform: translateX(-100%);
+  margin-top: 50px;
+  font-size: 75px;
+  position: absolute;
+  /*color: #fff;*/
+}
+
+.step-nn, .substep-nn {
+  height: 700px;
+  padding-top: 0;
+}
+
+.step-nn h1, .substep-nn h1 {
+  margin-top: 50px;
+  font-size: 75px;
+  /*color: #fff;*/
+  border-bottom: 3px solid /*#fff*/;
+  margin-bottom: 50px;
+}
+
+.step p {
+  margin: 20px 0;
+  font-size: 24px;
+}
+
+.two-container {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: auto auto;
+  padding: 10px;
+}
+
+.big {
+  font-size: 230px;
+  line-height: 230px;
+}
+
+.small {
+  font-size: 16px;
+}
+
+.tableFixHead {
+  overflow-y: auto; height: 200px;
+  margin: 10px 0;
+}
+.tableFixHead th { position: sticky; top: 0;
+background: #dddddd; 
+height: 50px;
+line-height: 50px;}
+
+.list-nn,
+.table-nn {
+  margin-left: 30px;
+  font-size: 24px;
+}
+
+.list-nn li {
+  margin: 10px 0;
+}
+
+.sublist-nn {
+  margin-left: 30px;
+}
+
+.table-nn {
+  margin: 0;
+  font-size: 18px;
+  width: 100%;
+}
+.table-nn th {
+  text-align: left;
+  font-weight: bold;
+}
+
+.table-nn tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.six-container {
+  height: 50px;
+  border-radius: 25px;
+  background: #dddddd;
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  padding: 10px;
+}
+.six-container div img {
+    height: 50px;
+}
+.six-container .curr {
+    font-size: 50px;
+    line-height: 50px;
+}
+
+.img-wrapper {
+  margin: 30px 0;
+  text-align: center;
+}
+.hr-nn {
+  width: 100%;
+  border-bottom: 3px solid /*#fff*/;
+}
+
+.questions {
+  height: 450px;
+  text-align: center;
+}
+.questions img {
+  height: 100%;
+}

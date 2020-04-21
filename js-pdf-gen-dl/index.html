@@ -1,0 +1,62 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>client side PDF generation and download</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>Client side PDF generation and download</h1>
+                <div class="form-group">
+                    <label for="file-name">PDF File Name</label>
+                    <input
+                        id="file-name"
+                        class="form-control"
+                        type="text"
+                        value="some-title.pdf"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="content">Content</label>
+                    <input
+                        id="content"
+                        class="form-control"
+                        type="text"
+                        value="Hello World"
+                    >
+                </div>
+                <a id="dl-pdf" class="btn btn-success">
+                    Download link!
+                </a>
+                <hr>
+                uses <a href="https://github.com/MrRio/jsPDF" target="_blank">https://github.com/MrRio/jsPDF</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+    <script>
+
+        document.getElementById('dl-pdf').addEventListener('click', function() {
+            if (this.href) {
+                window.URL.revokeObjectURL(this.href);
+            }
+            let doc = new jsPDF();
+            let text = document.getElementById('content').value;
+            doc.text(text, 10, 10);
+            let data = doc.output('blob');
+            let fileName = document.getElementById('file-name').value;
+            var url = window.URL.createObjectURL(data);
+            this.href = url;
+            this.download = fileName; 
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>avergnaud.github.io</title>
+    <link>https://avergnaud.github.io/</link>
+    <description>Recent content on avergnaud.github.io</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 21 Apr 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://avergnaud.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hosted Pages</title>
+      <link>https://avergnaud.github.io/hosted-paged/</link>
+      <pubDate>Tue, 21 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://avergnaud.github.io/hosted-paged/</guid>
+      <description>ReactJS rewriting of create-react-app using Webpack. sources | demo
+ QR code readers sources (including React, Angular versions)
+ Pure Javascript version : demo Webpack version : demo   &amp;ldquo;Knockout.JS like&amp;rdquo; binding sources | demo
+ Client side PDF generation and download sources | demo
+ Présentation Niort Numérique Smart-City IOTA slides</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://avergnaud.github.io/about/</link>
+      <pubDate>Mon, 20 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://avergnaud.github.io/about/</guid>
+      <description>Personal blog detailing the sources on https://github.com/avergnaud
+Loading repositories...  var mapper = function(ent){return ent.language}, reducer = function(stats, lang) {stats[lang] = (stats[lang] || 0) + 1; return stats}; window.ghApiCallHandler = function(result) { if (Math.floor(result.meta.status/100) == 2) { langStats = result.data.map(mapper).reduce(reducer, {}); var sortable = []; for (var language in langStats) { sortable.push([language, langStats[language]]); } sortable.sort(function(a, b) { return b[1] - a[1]; }); var listDiv = document.getElementById(&#34;languages-result&#34;); listDiv.innerHTML = &#39;&#39; for (s of sortable) { if (s[0] !</description>
+    </item>
+    
+  </channel>
+</rss>
