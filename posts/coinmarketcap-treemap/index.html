@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no"/>
 
-    <title>Tags | avergnaud.github.io</title>
+    <title>Market Cap Treemap | avergnaud.github.io</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -28,8 +28,6 @@
     
     
  
-    
-    <link rel="alternate" type="application/rss+xml" href="https://avergnaud.github.io/tags/index.xml" title="avergnaud.github.io" />
     </head>
 
     <body>
@@ -122,20 +120,40 @@
         <div id="content" class="content-container">
         
 
-<h1>Tags</h1>
-<ul>
+<h1 class="post-title">Market Cap Treemap</h1>
     
-        <li><a href="https://avergnaud.github.io/tags/d3.js/">D3.js</a> 2</li>
+    <time>April 18, 2020</time>
     
-        <li><a href="https://avergnaud.github.io/tags/fintech/">fintech</a> 2</li>
+    <div>
+        <p>
+        <p>And 24h performance for 10 biggest cryptocurrencies. This project uses the <a href="https://coinmarketcap.com/api/">CoinMarketCap API</a>.</p>
+<h2 id="market-capitalization">Market Capitalization</h2>
+<p>The browser first reaches a SpringBoot backend server. This backend calls CoinMarketCap and caches the data (for 30 minutes). The sources for the backend server <a href="https://github.com/avergnaud/coinmarketcap-px">are available on Github</a></p>
+<div class="first-post-visualisation">
+    <div class="lds-container">
+        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+    </div>
+</div>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/d3/5.15.0/d3.js"></script>
+<script src = "/script/coinmarketcap-treemap.js"></script> 
+<p>For each rectangle, the area is proportional to the currency&rsquo;s market capitalization. The % figure is the Kraken exchange rate performance for the last 24 hours (EUR market). Colored red when negative, and green when positive.</p>
+        </p>
+    </div>
     
-        <li><a href="https://avergnaud.github.io/tags/java/">Java</a> 1</li>
-    
-        <li><a href="https://avergnaud.github.io/tags/spring/">Spring</a> 1</li>
-    
-</ul>
 
-<div class="page-footer"></div>
+    
+
+    <div class="page-footer">
+        
+        <hr class="footer-divider">
+        
+            <a class="tag" href="/tags/fintech">#fintech</a>
+        
+            <a class="tag" href="/tags/d3.js">#D3.js</a>
+        
+      
+    </div>
+
 
         
 

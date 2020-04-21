@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html lang="en-us">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no"/>
+
+    <title>ThreadLocal study | avergnaud.github.io</title>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF3DB4">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    
+    
+    <link rel="stylesheet" href="https://avergnaud.github.io/css/main.min.fa053384ae0478e711bd414db518918f1af7666f87f88e030d59b700dcfdec9b.css"/>
+
+    
+    
+    
+
+    
+    
+ 
+    </head>
+
+    <body>
+        
+<nav>
+  <header>
+    <div class="site-title">
+        <a href="/">avergnaud.github.io</a>
+    </div>  
+</header>
+
+  <div class="nav-menu">
+  
+    <a class="color-link nav-link" href="/about/">About</a>
+  
+    <a class="color-link nav-link" href="/hosted-paged/">Hosted pages</a>
+  
+    <a class="color-link nav-link" href="/tags/">Tags</a>
+  
+  <a class="color-link nav-link" href="https://avergnaud.github.io/index.xml" target="_blank" rel="noopener" type="application/rss+xml">RSS</a>
+</div>
+<footer class="footer">
+	<div class="social-icons">
+        
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+</div>
+
+
+
+
+	<p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
+	<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
+
+	<script src="https://avergnaud.github.io/js/main.min.fa5c2b23e07b5d9bfad267a52b4b24fdb053e6fb7524993383594926a3ac270c.js" integrity="sha256-+lwrI+B7XZv60melK0sk/bBT5vt1JJkzg1lJJqOsJww=" crossorigin="anonymous"></script>
+</footer>
+</nav>
+
+        <div id="content" class="content-container">
+        
+
+<h1 class="post-title">ThreadLocal study</h1>
+    
+    <time>January 1, 2019</time>
+    
+    <div>
+        <p>
+        <p>I have read <a href="https://dzone.com/articles/painless-introduction-javas-threadlocal-storage">this great article</a> about java ThreadLocal objects and wanted to test their behaviour.</p>
+<h3 id="javalangthreadlocal">java.lang.ThreadLocal</h3>
+<p>This blog post relates to those two Github repositories:</p>
+<ol>
+<li><a href="https://github.com/avergnaud/threadlocal-executor">Use of ThreadLocal with a ThreadPoolExecutor</a></li>
+<li><a href="https://github.com/avergnaud/threadlocal-restcontroller">Use of ThreadLocal with Spring @RestController</a></li>
+</ol>
+<h4 id="1-threadlocal-values-for-threads-of-a-threadpoolexecutor">1. ThreadLocal values for threads of a ThreadPoolExecutor:</h4>
+<p>See <a href="https://github.com/avergnaud/threadlocal-executor">this project</a>.</p>
+<p><strong>The first Unit Test</strong> <em>GlobalCounterTest.java</em> executes 10 thousands commands:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Runnable command <span style="color:#f92672">=</span> GlobalCounter<span style="color:#f92672">::</span>increment
+</code></pre></div><p>It uses a ThreadPoolExecutor with 50 threads.</p>
+<p>But the global counter never reaches 10 thousands.</p>
+<p>The <em>GlobalCounter.java</em> is the cause of the race condition with the following instruction:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">increment</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    value <span style="color:#f92672">=</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>value<span style="color:#f92672">.</span><span style="color:#a6e22e">intValue</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> 1<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Please note that we did not use a ThreadLocal in this first example. The race condition can be fixed with the <em>SafeGlobalCounter.java</em></p>
+<p><strong>Another Unit Test</strong> <em>LocalCounterTest.java</em> uses a thread local counter. It executes 10 thousands commands:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Runnable command <span style="color:#f92672">=</span> LocalCounter<span style="color:#f92672">::</span>increment<span style="color:#f92672">;</span>
+</code></pre></div><p>It uses a ThreadPoolExecutor with 10 threads.</p>
+<p>As &ldquo;the value stored in a ThreadLocal instance is specific (local) to the current running thread&rdquo;, each thread increments its own counter value.</p>
+<p>There is no race condition although we use the same faulty instruction to increment the counter:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">increment</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    counter<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>getValue<span style="color:#f92672">()</span> <span style="color:#f92672">+</span> 1<span style="color:#f92672">));</span>
+    <span style="color:#75715e">//log.put(Thread.currentThread().getName(),counter.get();
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+</code></pre></div><p>The LocalCounter keeps a Map of each thread own counter value. Here is the console output of the <em>LocalCounterTest.java</em> Unit Test.</p>
+<pre>
+pool-1-thread-1:2116
+pool-1-thread-3:1274
+pool-1-thread-2:908
+pool-1-thread-5:3526
+pool-1-thread-4:322
+pool-1-thread-7:294
+pool-1-thread-6:1001
+pool-1-thread-9:15
+pool-1-thread-10:118
+pool-1-thread-8:426
+10000
+</pre>
+<h4 id="2-threadlocal-values-for-threads-of-a-tomcat-http-connector-pool">2. ThreadLocal values for threads of a Tomcat HTTP Connector pool:</h4>
+<p>See <a href="https://github.com/avergnaud/threadlocal-restcontroller">this project</a>.</p>
+<p><em>HelloControllerIT.java</em> is a SpringBoot Integration Test. We set up the embedded Tomcat thread pool size using the @TestPropertySource annotation. Then we call 1000 times a resource that increments a thread local counter. At the end of the test the total per thread is displayed:</p>
+<pre>
+http-nio-auto-1-exec-5:195
+http-nio-auto-1-exec-4:198
+http-nio-auto-1-exec-1:220
+http-nio-auto-1-exec-3:193
+http-nio-auto-1-exec-2:194
+1000
+</pre>
+<p><em>HelloControllerContextIT.java</em> is another test that requires the use of the ThreadLocal.remove method:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">clean</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    context<span style="color:#f92672">.</span><span style="color:#a6e22e">remove</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Indeed we need to clean the value of the ThreadLocal once the request has been processed, because the associated thread lives inside a pool and will be reused for the next request.</p>
+        </p>
+    </div>
+    
+
+    
+
+    <div class="page-footer">
+        
+        <hr class="footer-divider">
+        
+            <a class="tag" href="/tags/java">#Java</a>
+        
+            <a class="tag" href="/tags/spring">#Spring</a>
+        
+      
+    </div>
+
+
+        
+
+<link rel="stylesheet" type="text/css" href="/css/katex.min.css" crossorigin="anonymous">
+<script type="text/javascript" src="/js/katex.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/js/auto-render.min.js"onload="renderMathInElement(document.body);" crossorigin="anonymous"></script>
+
+        </div>
+        <footer class="footer-mobile">
+	<div class="social-icons">
+        
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+</div>
+
+
+
+
+	<div class="footer-mobile-links">
+		<p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
+		<span class="divider-bar">|</span>
+		<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
+	</div>
+
+	<script src="https://avergnaud.github.io/js/main.min.fa5c2b23e07b5d9bfad267a52b4b24fdb053e6fb7524993383594926a3ac270c.js" integrity="sha256-+lwrI+B7XZv60melK0sk/bBT5vt1JJkzg1lJJqOsJww=" crossorigin="anonymous"></script>
+</footer>
+    </body>
+</html>

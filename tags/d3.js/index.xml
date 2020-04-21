@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>D3.js on avergnaud.github.io</title>
+    <link>https://avergnaud.github.io/tags/d3.js/</link>
+    <description>Recent content in D3.js on avergnaud.github.io</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 19 Apr 2020 11:01:22 +0200</lastBuildDate>
+    
+	<atom:link href="https://avergnaud.github.io/tags/d3.js/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Live Order Book</title>
+      <link>https://avergnaud.github.io/posts/kraken-websocket-orderbook/</link>
+      <pubDate>Sun, 19 Apr 2020 11:01:22 +0200</pubDate>
+      
+      <guid>https://avergnaud.github.io/posts/kraken-websocket-orderbook/</guid>
+      <description>&lt;p&gt;Live data from Kraken Websocket API showing the Order Book.&lt;/p&gt;
+&lt;p&gt;See the &lt;a href=&#34;https://kraken-orders.herokuapp.com/&#34;&gt;demo&lt;/a&gt; on Heroku&amp;hellip;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Market Cap Treemap</title>
+      <link>https://avergnaud.github.io/posts/coinmarketcap-treemap/</link>
+      <pubDate>Sat, 18 Apr 2020 20:38:21 +0200</pubDate>
+      
+      <guid>https://avergnaud.github.io/posts/coinmarketcap-treemap/</guid>
+      <description>&lt;p&gt;And 24h performance for 10 biggest cryptocurrencies. This project uses the &lt;a href=&#34;https://coinmarketcap.com/api/&#34;&gt;CoinMarketCap API&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

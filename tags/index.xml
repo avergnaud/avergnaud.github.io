@@ -6,9 +6,46 @@
     <description>Recent content in Tags on avergnaud.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Sun, 19 Apr 2020 11:01:22 +0200</lastBuildDate>
     
 	<atom:link href="https://avergnaud.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>D3.js</title>
+      <link>https://avergnaud.github.io/tags/d3.js/</link>
+      <pubDate>Sun, 19 Apr 2020 11:01:22 +0200</pubDate>
+      
+      <guid>https://avergnaud.github.io/tags/d3.js/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>fintech</title>
+      <link>https://avergnaud.github.io/tags/fintech/</link>
+      <pubDate>Sun, 19 Apr 2020 11:01:22 +0200</pubDate>
+      
+      <guid>https://avergnaud.github.io/tags/fintech/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java</title>
+      <link>https://avergnaud.github.io/tags/java/</link>
+      <pubDate>Tue, 01 Jan 2019 11:01:22 +0200</pubDate>
+      
+      <guid>https://avergnaud.github.io/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Spring</title>
+      <link>https://avergnaud.github.io/tags/spring/</link>
+      <pubDate>Tue, 01 Jan 2019 11:01:22 +0200</pubDate>
+      
+      <guid>https://avergnaud.github.io/tags/spring/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>
