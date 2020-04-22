@@ -17,7 +17,7 @@
       <pubDate>Sun, 19 Apr 2020 11:01:22 +0200</pubDate>
       
       <guid>https://avergnaud.github.io/posts/kraken-websocket-orderbook/</guid>
-      <description>&lt;p&gt;Live data from Kraken Websocket API showing the Order Book.&lt;/p&gt;
+      <description>&lt;p&gt;Live data from Kraken Websocket API showing the Ether/Euro Order Book.&lt;/p&gt;
 &lt;p&gt;See the &lt;a href=&#34;https://kraken-orders.herokuapp.com/&#34;&gt;demo&lt;/a&gt; on Heroku&amp;hellip;&lt;/p&gt;</description>
     </item>
     
