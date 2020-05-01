@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on avergnaud.github.io</title>
-    <link>https://avergnaud.github.io/posts/</link>
-    <description>Recent content in Posts on avergnaud.github.io</description>
+    <title>D3.js on avergnaud.github.io</title>
+    <link>https://avergnaud.github.io/tags/d3.js/</link>
+    <description>Recent content in D3.js on avergnaud.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 19 Apr 2020 11:01:22 +0200</lastBuildDate>
     
-	<atom:link href="https://avergnaud.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://avergnaud.github.io/tags/d3.js/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -28,15 +28,6 @@
       
       <guid>https://avergnaud.github.io/posts/coinmarketcap-treemap/</guid>
       <description>&lt;p&gt;And 24h performance for 10 biggest cryptocurrencies. This project uses the &lt;a href=&#34;https://coinmarketcap.com/api/&#34;&gt;CoinMarketCap API&lt;/a&gt;.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>ThreadLocal study</title>
-      <link>https://avergnaud.github.io/posts/threadlocal-study/</link>
-      <pubDate>Tue, 01 Jan 2019 11:01:22 +0200</pubDate>
-      
-      <guid>https://avergnaud.github.io/posts/threadlocal-study/</guid>
-      <description>&lt;p&gt;I have read &lt;a href=&#34;https://dzone.com/articles/painless-introduction-javas-threadlocal-storage&#34;&gt;this great article&lt;/a&gt; about java ThreadLocal objects and wanted to test their behaviour.&lt;/p&gt;</description>
     </item>
     
   </channel>

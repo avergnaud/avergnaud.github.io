@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no"/>
 
-    <title>Live Order Book | avergnaud.github.io</title>
+    <title>D3.js | avergnaud.github.io</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -28,6 +28,8 @@
     
     
  
+    
+    <link rel="alternate" type="application/rss+xml" href="https://avergnaud.github.io/tags/d3.js/index.xml" title="avergnaud.github.io" />
     </head>
 
     <body>
@@ -129,40 +131,43 @@
         <div id="content" class="content-container">
         
 
-<h1 class="post-title">Live Order Book</h1>
+  <h1>Tagged "D3.js"</h1>
+  
+  
     
-    <time>April 19, 2020</time>
+    <article>
+            <h2>
+                <a href="https://avergnaud.github.io/posts/kraken-websocket-orderbook/">
+                    Live Order Book
+                </a>
+            </h2>
+            <div>
+                <p><p>Live data from Kraken Websocket API showing the Order Book.</p>
+<p>See the <a href="https://kraken-orders.herokuapp.com/">demo</a> on Heroku&hellip;</p></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>April 19, 2020</time>
+            </div> 
+        </article>
     
-    <div>
-        <p>
-        <p>Live data from Kraken Websocket API showing the Order Book.</p>
-<p>See the <a href="https://kraken-orders.herokuapp.com/">demo</a> on Heroku&hellip;</p>
-<img src="/images/kraken-websocket-orderbook-preview.png" style="max-width: 100%;">
-<h2 id="etheur-order-book">ETHEUR Order Book</h2>
-<p>See the <a href="https://github.com/avergnaud/wss-kraken-orders">sources on Github</a></p>
-<p>The browser does not request directly the Kraken API. Instead it opens a websocket connexion with an intermediate Node.js server. This server also requests Kraken through its Websocket API (see <a href="https://github.com/avergnaud/wss-kraken-orders/blob/master/server/kraken-client.js">kraken-client.js</a>). The server does not send a message to the browser on each incoming message from Kraken. It uses RxJS debouce operator to wait at least for 100ms (see <a href="https://github.com/avergnaud/wss-kraken-orders/blob/master/server/server.js">this</a>), thus letting enough time for D3js to display smooth animations.</p>
-<p>Here is a quick reminder <a href="https://support.kraken.com/hc/en-us/articles/115000364388-Trading-glossary">from Kraken</a> about the Bid/Ask depth :</p>
-<ul>
-<li><em>Bid</em>: &ldquo;An order listed on the buy side of the order book&rdquo;. The volume of those orders are sumed in the green rectangles of the order book.</li>
-<li><em>Ask</em>: &ldquo;n order listed on the sell side of the order book&rdquo;. The volume of those orders are sumed in the red rectangles of the order book.</li>
-<li><em>Bid/Ask Depth</em>: &ldquo;The Bid/Ask Depth represents the cumulative volume of buy and sell orders at a particular price. The bid depth at a given price is the cumulative volume of current buy orders on the book at that price or higher, while the ask depth at a given price is the cumulative volume of current sell orders on the book at that price or lower&rdquo;. Why represent a cumulative volume? The logic behind this is the following: if one is willing to buy 1ETH for 158€, then we assume that he/she is also willing to buy 1ETH for 157€, and so on.</li>
-</ul>
-        </p>
-    </div>
+  
     
-
+    <article>
+            <h2>
+                <a href="https://avergnaud.github.io/posts/coinmarketcap-treemap/">
+                    Market Cap Treemap
+                </a>
+            </h2>
+            <div>
+                <p><p>And 24h performance for 10 biggest cryptocurrencies. This project uses the <a href="https://coinmarketcap.com/api/">CoinMarketCap API</a>.</p></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>April 18, 2020</time>
+            </div> 
+        </article>
     
-
-    <div class="page-footer">
-        
-        <hr class="footer-divider">
-        
-            <a class="tag" href="/tags/fintech">#fintech</a>
-        
-            <a class="tag" href="/tags/d3.js">#D3.js</a>
-        
-      
-    </div>
 
 
         
