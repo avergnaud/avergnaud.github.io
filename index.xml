@@ -30,36 +30,8 @@
       <pubDate>Mon, 20 Apr 2020 00:00:00 +0000</pubDate>
       
       <guid>https://avergnaud.github.io/about/</guid>
-      <description>Personal blog detailing the code on https://github.com/avergnaud
+      <description>Personal blog detailing the sources on https://github.com/avergnaud
 Loading repositories...  var mapper = function(ent){return ent.language}, reducer = function(stats, lang) {stats[lang] = (stats[lang] || 0) + 1; return stats}; window.ghApiCallHandler = function(result) { if (Math.floor(result.meta.status/100) == 2) { langStats = result.data.map(mapper).reduce(reducer, {}); var sortable = []; for (var language in langStats) { sortable.push([language, langStats[language]]); } sortable.sort(function(a, b) { return b[1] - a[1]; }); var listDiv = document.getElementById(&#34;languages-result&#34;); listDiv.innerHTML = &#39;&#39; for (s of sortable) { if (s[0] !</description>
-    </item>
-    
-    <item>
-      <title>Live Order Book</title>
-      <link>https://avergnaud.github.io/posts/kraken-websocket-orderbook/</link>
-      <pubDate>Sun, 19 Apr 2020 11:01:22 +0200</pubDate>
-      
-      <guid>https://avergnaud.github.io/posts/kraken-websocket-orderbook/</guid>
-      <description>&lt;p&gt;Live data from Kraken Websocket API showing the Ether/Euro Order Book.&lt;/p&gt;
-&lt;p&gt;See the &lt;a href=&#34;https://kraken-orders.herokuapp.com/&#34;&gt;demo&lt;/a&gt; on Heroku&amp;hellip;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Market Cap Treemap</title>
-      <link>https://avergnaud.github.io/posts/coinmarketcap-treemap/</link>
-      <pubDate>Sat, 18 Apr 2020 20:38:21 +0200</pubDate>
-      
-      <guid>https://avergnaud.github.io/posts/coinmarketcap-treemap/</guid>
-      <description>&lt;p&gt;And 24h performance for 10 biggest cryptocurrencies. This project uses the &lt;a href=&#34;https://coinmarketcap.com/api/&#34;&gt;CoinMarketCap API&lt;/a&gt;.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>ThreadLocal study</title>
-      <link>https://avergnaud.github.io/posts/threadlocal-study/</link>
-      <pubDate>Tue, 01 Jan 2019 11:01:22 +0200</pubDate>
-      
-      <guid>https://avergnaud.github.io/posts/threadlocal-study/</guid>
-      <description>&lt;p&gt;I have read &lt;a href=&#34;https://dzone.com/articles/painless-introduction-javas-threadlocal-storage&#34;&gt;this great article&lt;/a&gt; about java ThreadLocal objects and wanted to test their behaviour.&lt;/p&gt;</description>
     </item>
     
   </channel>
