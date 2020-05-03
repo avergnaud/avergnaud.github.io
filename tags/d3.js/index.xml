@@ -6,10 +6,20 @@
     <description>Recent content in D3.js on avergnaud.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 19 Apr 2020 11:01:22 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 03 May 2020 10:55:48 +0200</lastBuildDate>
     
 	<atom:link href="https://avergnaud.github.io/tags/d3.js/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>OHLC MACD chart</title>
+      <link>https://avergnaud.github.io/posts/ohlc-macd-span/</link>
+      <pubDate>Sun, 03 May 2020 10:55:48 +0200</pubDate>
+      
+      <guid>https://avergnaud.github.io/posts/ohlc-macd-span/</guid>
+      <description>&lt;p&gt;OHLC chart and MACD indicator for ETHEUR 1day Kraken market data.&lt;/p&gt;
+&lt;p&gt;See the &lt;a href=&#34;https://macd-front.web.app/&#34;&gt;demo&lt;/a&gt; hosted on Firebase.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Live Order Book</title>
