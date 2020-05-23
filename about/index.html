@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
     
-    <link rel="stylesheet" href="https://avergnaud.github.io/css/main.min.baa1ec683d85981bbf9c0b17da776198c52783f1e7b94293d72f613e7ca5f99d.css"/>
+    <link rel="stylesheet" href="https://avergnaud.github.io/css/main.min.c4f3575d02ac519b227e43022718f7e0932db8b2d8c6272e8e86446550533028.css"/>
 
     
     
@@ -61,13 +61,18 @@
   
   <a 
     class="navigation-link"
-    href="/hosted-paged/"
-  >Hosted pages</a>
+    href="/projects/"
+  >Projects</a>
   
   <a 
     class="navigation-link"
     href="/tags/"
   >Tags</a>
+  
+  <a 
+    class="navigation-link"
+    href="/links/"
+  >Links</a>
   
   <a
     class="navigation-link"
@@ -156,28 +161,28 @@
         var table = document.getElementById("languages-result");
         document.getElementById("loading").innerHTML = ''
         for (s of sortable) {
-        if (s[0] != "null") {
-            // do stuff
-            var languageRow = document.createElement('tr');
-            var lien = "<a href='https://github.com/search?q=user%3Aavergnaud+language%3A" 
-                        + s[0] 
-                        + "&s=updated' target='_blank'>" 
-                        + s[0] 
-                        + "</a>";
-            var lienCell = document.createElement('td');
-            lienCell.innerHTML = lien;
-            languageRow.appendChild(lienCell);
-            var nb = "<a href='https://github.com/search?q=user%3Aavergnaud+language%3A" 
-                        + s[0] 
-                        + "&s=updated' target='_blank'>" 
-                        + s[1] 
-                        + "</a>";
-            var nbCell = document.createElement('td');
-            nbCell.innerHTML = nb;
-            languageRow.appendChild(nbCell);
-            //languageRow.innerHTML = lien + ' <span class="rnb">' + s[1] + '</span>';  
-            table.appendChild(languageRow);
-        }
+            if (s[0] != "null") {
+                // do stuff
+                var languageRow = document.createElement('tr');
+                var lien = "<a href='https://github.com/search?q=user%3Aavergnaud+language%3A" 
+                            + s[0] 
+                            + "&s=updated' target='_blank'>" 
+                            + s[0] 
+                            + "</a>";
+                var lienCell = document.createElement('td');
+                lienCell.innerHTML = lien;
+                languageRow.appendChild(lienCell);
+                var nb = "<a href='https://github.com/search?q=user%3Aavergnaud+language%3A" 
+                            + s[0] 
+                            + "&s=updated' target='_blank'>" 
+                            + s[1] 
+                            + "</a>";
+                var nbCell = document.createElement('td');
+                nbCell.innerHTML = nb;
+                languageRow.appendChild(nbCell);
+                //languageRow.innerHTML = lien + ' <span class="rnb">' + s[1] + '</span>';  
+                table.appendChild(languageRow);
+            }
         }
     }
     else {

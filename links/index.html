@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no"/>
 
-    <title>Tags | avergnaud.github.io</title>
+    <title>Links | avergnaud.github.io</title>
     
     
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
@@ -42,8 +42,6 @@
     
     
  
-    
-    <link rel="alternate" type="application/rss+xml" href="https://avergnaud.github.io/tags/index.xml" title="avergnaud.github.io" />
     </head>
 
     <body>
@@ -129,22 +127,74 @@
         <div id="content" class="content-container">
         
 
-<h1>Tags</h1>
-<ul>
+<h1 class="post-title">Links</h1>
     
-        <li><a href="https://avergnaud.github.io/tags/d3.js/">D3.js</a> 3</li>
+    <time>May 22, 2020</time>
     
-        <li><a href="https://avergnaud.github.io/tags/fintech/">fintech</a> 3</li>
-    
-        <li><a href="https://avergnaud.github.io/tags/java/">Java</a> 1</li>
-    
-        <li><a href="https://avergnaud.github.io/tags/react/">React</a> 1</li>
-    
-        <li><a href="https://avergnaud.github.io/tags/spring/">Spring</a> 2</li>
-    
-</ul>
+    <div>
+        <p>
+        <h3 id="external-links">External links</h3>
+<div>
+  <ul>
+    <li>
+      <img class="icone" src="/images/baeldung_favicon-16x16.png">
+      <a target="_blank" href="https://www.baeldung.com/">https://www.baeldung.com/</a>
+    </li>
+    <li>
+      <img class="icone" src="/images/infoq_favicon-16x16.ico">
+      <a target="_blank" href="https://www.infoq.com/">https://www.infoq.com/</a>
+    </li>
+    <li>
+      <img class="icone" src="/images/dzone_favicon-16x16.png">
+      <a target="_blank" href="https://dzone.com/">https://dzone.com/</a>
+    </li>
+  </ul>
+</div>
+<div>
+  <p>
+    Latest articles from 
+      <span style="white-space: nowrap;">
+        <img class="icone" src="/images/fowler_favicon-16x16.ico"><a target="_blank" href="https://martinfowler.com/">https://martinfowler.com/</a>:
+      </span>
+  </p>
+  <ul id="martinfowler-articles">
+  </ul>
+</div>
+<script>
+  const ul = document.getElementById('martinfowler-articles');
+  fetch('https://rss-prxy.herokuapp.com/rss/martinfowler.com')
+    .then(response => response.json())
+    .then(data => {
+      /* json response */
+      let items = data.items;
+      items.sort(function(a, b) {
+              return b['pubDate'] - a['pubDate'];
+          });
+      items.forEach(item => {
+        /* for each item */
+        let formattedDate = item.pubDate.substring(0, item.pubDate.indexOf("T"));
+        let li = document.createElement('li');
+        let lien = "<a href='" + item.link + "'" 
+                              + " target='_blank'>" 
+                              + item.title
+                              + "</a> (" + formattedDate + ")";
+        li.innerHTML = lien;
+        ul.appendChild(li);
+      });
+    });
+</script><blockquote>
+</blockquote>
 
-<div class="page-footer"></div>
+        </p>
+    </div>
+    
+
+    
+
+    <div class="page-footer">
+        
+    </div>
+
 
         
 

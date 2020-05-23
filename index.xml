@@ -6,10 +6,19 @@
     <description>Recent content on avergnaud.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 21 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 22 May 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://avergnaud.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Links</title>
+      <link>https://avergnaud.github.io/links/</link>
+      <pubDate>Fri, 22 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://avergnaud.github.io/links/</guid>
+      <description>External links    https://www.baeldung.com/   https://www.infoq.com/   https://dzone.com/      Latest articles from https://martinfowler.com/:     const ul = document.getElementById(&#39;martinfowler-articles&#39;); fetch(&#39;https://rss-prxy.herokuapp.com/rss/martinfowler.com&#39;) .then(response = response.json()) .then(data = { /* json response */ let items = data.items; items.sort(function(a, b) { return b[&#39;pubDate&#39;] - a[&#39;pubDate&#39;]; }); items.forEach(item = { /* for each item */ let formattedDate = item.pubDate.substring(0, item.pubDate.indexOf(&#34;T&#34;)); let li = document.createElement(&#39;li&#39;); let lien = &#34;</description>
+    </item>
     
     <item>
       <title>OHLC MACD chart</title>
@@ -22,11 +31,11 @@
     </item>
     
     <item>
-      <title>Hosted Pages</title>
-      <link>https://avergnaud.github.io/hosted-paged/</link>
+      <title>Projects</title>
+      <link>https://avergnaud.github.io/projects/</link>
       <pubDate>Tue, 21 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://avergnaud.github.io/hosted-paged/</guid>
+      <guid>https://avergnaud.github.io/projects/</guid>
       <description>ReactJS rewriting of create-react-app using Webpack. sources | demo
 QR code readers sources (including React, Angular versions)
  Pure Javascript version : demo Webpack version : demo  &amp;ldquo;Knockout.JS like&amp;rdquo; binding sources | demo
