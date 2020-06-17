@@ -108,7 +108,7 @@ const yAxisRightG = focus
 
 const yMargin = 30;
 
-d3.json("http://localhost:8080/macd/?macdDefinitionId=9394").then(function (
+d3.json("https://macd-definition.herokuapp.com/macd/?macdDefinitionId=1").then(function (
   json
 ) {
   /* skip the first incomplete items (before 12+26+9) */

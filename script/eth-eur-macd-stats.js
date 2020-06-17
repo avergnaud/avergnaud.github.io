@@ -1,4 +1,4 @@
-fetch("http://localhost:8080/macd/?macdDefinitionId=9394")
+fetch("https://macd-definition.herokuapp.com/macd/?macdDefinitionId=1")
   .then((data) => data.json())
   .then((json) => {
 
