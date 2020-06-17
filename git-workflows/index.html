@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git workflows</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <style>
+      .card-header.custom-card-header {
+        padding: 0.25rem 1.25rem;
+      }
+      h2.custom-h2 {
+        margin-top: 4rem;
+      }
+      h3.custom-h3 {
+        margin-top: 1.75rem;
+      }
+      img.custom-img {
+        max-width: 100%;
+      }
+      p.custom-p {
+        margin-top: 1rem;
+      }
+      .parenthese {
+        margin: 10px 0 10px 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="jumbotron">
+        <h1 class="display-4">Git workflows</h1>
+        <hr class="my-4">
+          This article is based on 
+          <a 
+            target="_blank"
+            href="https://martinfowler.com/articles/branching-patterns.html"  
+          >Martin Fowler's Branching Patterns article</a>.
+          The first sections deal with common topics:
+          <ul>
+            <li>How to maintain a linear commit history</li>
+            <li>
+              The difference between 
+              <a
+                target="_blank"
+                href="https://trunkbaseddevelopment.com/"
+              >
+                trunk based development
+              </a>
+               and Git branching patterns
+              (<a 
+                target="_blank"
+                href="https://guides.github.com/introduction/flow/"
+              >Github flow</a>, 
+              <a
+                target="_blank"
+                href="https://docs.gitlab.com/ee/topics/gitlab_flow.html"
+              >Gitlab flow</a>, 
+              <a
+                target="_blank"
+                href="https://nvie.com/posts/a-successful-git-branching-model/"
+              >git-flow</a>, 
+              <a
+                target="_blank"
+                href="https://www.atlassian.com/blog/git/simple-git-workflow-is-simple"
+              >Atlassian workflow</a>)
+            </li>
+            <li>Using local branches</li>
+          </ul>
+          The next sections compare the various Git workflows for two use cases:
+          <ul>
+            <li>Developing a new feature and releasing it</li>
+            <li>Fixing a bug an releasing the bugfix</li>
+          </ul>
+          I finally explain why a (small) variant of <u>Github Flow</u> is my personal preference for:
+          <ul>
+            <li>
+              Applications that run with a single version in production. This is the most common case according to my personal work experience.
+            </li>
+            <li>
+              And small teams working on the code base (on a specific scm repo).
+              "Small" means there is one developer working on a project, 
+              or a few developers who are managed by a technical leader.
+            </li>
+          </ul>
+          
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <h2 class="custom-h2">Linear history</h2>
+          <div>
+            <a
+              target="_blank"
+              href="https://git-scm.com/book/en/v2/Git-Branching-Rebasing"
+            >
+              From the documentation:
+            </a>
+            "Rebasing makes for a cleaner history. If you examine the log of a rebased branch, it looks like a linear history: it appears that all the work happened in series, even when it originally happened in parallel."
+          </div>
+          <div class="accordion" id="lh">
+            <div class="card">
+              <div class="card-header custom-card-header" id="lh-headingOne">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#lh-collapseOne"
+                    aria-expanded="false"
+                    aria-controls="lh-collapseOne"
+                  >
+                    Git merge --ff and git rebase
+                  </button>
+                </h2>
+              </div>
+
+              <div
+                id="lh-collapseOne"
+                class="collapse"
+                aria-labelledby="lh-headingOne"
+                data-parent="#lh"
+              >
+                <div class="card-body">
+                  <a
+                    target="_blank"
+                    href="https://www.bitsnbites.eu/a-tidy-linear-git-history/"
+                  >
+                    This article
+                  </a>
+                  explains why you would want a linear commit history.
+                  <blockquote class="blockquote">
+                    "A linear history is simply a Git history in which all commits come
+                    after one another. I.e. you will not find any merges of branches
+                    with independent commit histories."
+                  </blockquote>
+                  In order to achieve a linear history you may need the git rebase
+                  command...
+                  <h3 class="custom-h3">When a fast-forward merge is possible</h3>
+                  In the following example I created a local branch and applied 3
+                  commits.
+                  <div id="local-branch-3-commits">
+                    <img class="custom-img" src="img/linear_history_1.png" alt="linear history 1" />
+                  </div>
+                  <p class="custom-p">
+                    Sourcetree does not display any fork on the graph, because the
+                    branches did not diverge.
+                  </p>
+                  I first switch to the local master branch:
+                  <div>
+                    <kbd>git checkout master</kbd>
+                  </div>
+                  Then merge using the
+                  <a target="_blank" href="https://git-scm.com/docs/git-merge">
+                    default fast forward
+                  </a>
+                  behavior:
+                  <div>
+                    <kbd>git merge my-feature</kbd>
+                  </div>
+                  The result is the following graph:
+                  <div>
+                    <img class="custom-img" src="img/linear_history_2.png" alt="linear history 2" />
+                  </div>
+                  <h3 class="custom-h3">When a fast-forward merge is not possible</h3>
+                  In this example I also created a local branch and applied 3 commits.
+                  But in the meantime someone else commited on the master branch (in
+                  this case it is me and it happened on my <u>local</u> repository).
+                  <div>
+                    <img
+                      class="custom-img"
+                      src="img/non_linear_history_1.png"
+                      alt="non linear history 1"
+                    />
+                  </div>
+                  What happens if I try the same fast-forward merge?
+                  <div>
+                    <kbd>git checkout master</kbd>
+                  </div>
+                  <div>
+                    <kbd>git merge my-feature</kbd>
+                  </div>
+                  I get the following error:
+                  <div>
+                    <pre>
+  Auto-merging README.md
+  CONFLICT (content): Merge conflict in README.md
+  Automatic merge failed; fix conflicts and then commit the result.</pre>
+                  </div>
+                  and this history graph:
+                  <div>
+                    <img
+                      class="custom-img"
+                      src="img/non_linear_history_2.png"
+                      alt="non linear history 2"
+                    />
+                  </div>
+                  The uncommitted changes are quite simple in my case:
+                  <pre>
+  <<<<<<< HEAD
+  something else
+  =======
+  A B C
+  >>>>>>> my-feature</pre>
+                  I then have to manually resolve the conflict, add the file and commit to the master.
+                  But this will <b>not</b> result in a linear commit history.
+                  <h3 class="custom-h3">Using rebase</h3>
+                  I am going to use rebase on the local my-feature branch. This branch is not public.
+                  So the 
+                  <a target="_blank" href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing#the-golden-rule-of-rebasing">
+                    golden rule of rebasing
+                  </a> is respected.
+                  Starting from the same situation as before:
+                  <div>
+                    <img
+                      class="custom-img"
+                      src="img/non_linear_history_1.png"
+                      alt="non linear history 1"
+                    />
+                  </div>
+                  Then I rebase to change the root of my-feature branch from the old master to the tip of the latest master.
+                  <div>
+                    <kbd>git checkout my-feature</kbd>
+                  </div>
+                  <div>
+                    <kbd>git rebase master</kbd>
+                  </div>
+                  I get the following error:
+                  <pre>
+  First, rewinding head to replay your work on top of it...
+  Applying: modification A
+  Using index info to reconstruct a base tree...
+  M	README.md
+  Falling back to patching base and 3-way merge...
+  Auto-merging README.md
+  CONFLICT (content): Merge conflict in README.md
+  error: Failed to merge in the changes.
+  Patch failed at 0001 modification A
+  hint: Use 'git am --show-current-patch' to see the failed patch
+  Resolve all conflicts manually, mark them as resolved with
+  "git add/rm &lt;conflicted_files&gt;", then run "git rebase --continue".
+  You can instead skip this commit: run "git rebase --skip".
+  To abort and get back to the state before "git rebase", run "git rebase --abort".</pre>
+                  The uncommitted changes are only related to the first commit "modification A":
+                  <pre>
+  <<<<<<< HEAD
+  something else
+  =======
+  A
+  >>>>>>> modification A</pre>
+                  Git invites me to manually resolve the conflict:
+                  <pre>
+  something else
+  A</pre>
+                  ... and continue the rebase:
+                  <div>
+                    <kbd>git add README.md</kbd>
+                  </div>
+                  <div>
+                    <kbd>git rebase --continue</kbd>
+                  </div>
+                  <p class="custom-p">
+                    (More info
+                    <a target="_blank" href="https://help.github.com/en/github/using-git/resolving-merge-conflicts-after-a-git-rebase">
+                      here
+                    </a>
+                      and 
+                    <a target="_blank" href="https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/resolving-a-merge-conflict-using-the-command-line">
+                      here
+                    </a> 
+                      .)
+                  </p>
+                  Then I repeat this for "modification B" and "modification C"...
+                  Untill I finish the rebase and get the following graph:
+                  <div>
+                    <img
+                      class="custom-img"
+                      src="img/rebase_1.png"
+                      alt="rebase 1"
+                    />
+                  </div>
+                  <p class="custom-p">
+                    Keep in mind that the rebase happened on the my-feature branch</b>.
+                    The local repository is in a similar state as 
+                    <a href="#local-branch-3-commits">
+                        previously when I had 3 commits and no in-between commits on the master
+                    </a>
+                    The difference in this case is that I retrieved the "something else" commit on my branch.
+                    And then replayed the commits on my branch on top of that "something else" commit.
+                  </p>
+                  
+                  As previously I still need to merge my-feature into master:
+                  <div>
+                    <kbd>git checkout master</kbd>
+                  </div>
+                  <div>
+                    <kbd>git merge my-feature</kbd>
+                  </div>
+                  The fast-forward merge is executed without error:
+                  <pre>
+  Updating 61a6308..bbb38da
+  Fast-forward
+  README.md | 1 +
+  1 file changed, 1 insertion(+)</pre>
+                  The result is the following graph:
+                  <div>
+                    <img
+                      class="custom-img"
+                      src="img/rebase_2.png"
+                      alt="rebase 2"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div><!-- card -->
+          </div><!-- accordion -->
+        </div><!-- col-12 -->
+      </div><!-- row -->
+
+      <div class="row">
+        <div class="col-12">
+          <h2 class="custom-h2">"CI" or feature branching</h2>
+          <ul>
+            <li>
+              Continuous Integration is similar to "trunk based development" for SVN users.
+              <i>"Developers do mainline integration as soon as they have a healthy commit they can share, usually less than a day's work"</i> 
+              (<a target="_blank" href="https://martinfowler.com/articles/branching-patterns.html#continuous-integration">source</a>).
+              <br><i>"A source-control branching model, where developers collaborate on code in a single branch [the mainline], 
+              resist any pressure to create other long-lived development branches by employing documented techniques. 
+              They therefore avoid merge hell, do not break the build, and live happily ever after."</i>
+              (<a targt="_blank" href="https://trunkbaseddevelopment.com/">source</a>)
+            </li>
+            <li>
+              <a 
+                target="_blank"
+                href="https://guides.github.com/introduction/flow/"
+              >Github flow</a>, 
+              <a
+                target="_blank"
+                href="https://docs.gitlab.com/ee/topics/gitlab_flow.html"
+              >Gitlab flow</a>, 
+              <a
+                target="_blank"
+                href="https://nvie.com/posts/a-successful-git-branching-model/"
+              >git-flow</a>, 
+              <a
+                target="_blank"
+                href="https://www.atlassian.com/blog/git/simple-git-workflow-is-simple"
+              >Atlassian workflow</a> are "feature branching" workflows. Because they recommend creating a (maybe long-lived) new branch for each new feature.
+              <i>"Put all work for a feature on its own branch, integrate into mainline when the feature is complete"</i> 
+              (<a target="_blank", href="https://martinfowler.com/articles/branching-patterns.html#feature-branching">source</a>)
+            </li>
+          </ul>
+        </div><!-- col-12 -->
+      </div><!-- row -->
+
+      <div class="row">
+        <div class="col-12">
+          <h2 class="custom-h2">Local branches</h2>
+          <ul>
+            <li>
+              If you choose
+              <a
+                target="_blank"
+                href="https://martinfowler.com/articles/branching-patterns.html#continuous-integration"
+              >
+                Continuous Integration
+              </a>
+              then you may use a local branch or not. "Most people who
+              use Continuous Integration don't bother with a separate
+              local branch to work on".
+            </li>
+            <li>
+              If you choose
+              <a
+                target="_blank"
+                href="https://martinfowler.com/articles/branching-patterns.html#feature-branching"
+              >
+                Feature Branching
+              </a>
+              then you have to create a local branch.
+            </li>
+          </ul>
+
+          <div class="accordion" id="lb">
+            <div class="card">
+              <div class="card-header custom-card-header" id="lb-headingOne">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#lb-collapseOne"
+                    aria-expanded="false"
+                    aria-controls="lb-collapseOne"
+                  >
+                    How to develop on a local branch
+                  </button>
+                </h2>
+              </div>
+
+              <div
+                id="lb-collapseOne"
+                class="collapse"
+                aria-labelledby="lb-headingOne"
+                data-parent="#lb"
+              >
+                <div class="card-body">
+                  On the local master branch:
+                  <div>
+                    <kbd>git pull --rebase</kbd>
+                  </div>
+                  <div class="parenthese">
+                    Why use the --rebase option? <kbd>git pull</kbd> is a shorthand for <kbd>git fetch</kbd>
+                     and then <kbd>git merge</kbd> (<a target="_blank" href="https://git-scm.com/docs/git-pull">source</a>).
+                     This may result (as documented) in a merge commit on the local master. With the --rebase option, the local commits
+                      will be on top untill pushed to the remote.
+                  </div>
+                  Then create your new feature-branch:
+                  <div>
+                    <kbd>git checkout -b my-feature</kbd>
+                  </div>
+                  During your local development you keep commiting on this local branch. 
+                  When a first version is ready to be deployed on a testing environment,
+                   you first make sure to update the local master branch:
+                   <div>
+                     <kbd>git checkout master</kbd>
+                   </div>
+                   <div>
+                     <kbd>git pull --rebase</kbd>
+                   </div>
+                   At this point there may be new changes on the local master branch.
+                   So you integrate those changes from master into my-feature, <b>by reapplying your commits on top of the master's head</b>
+                   You checkout the my-feature branch and then rebase it onto the master branch:
+                   <div>
+                     <kbd>git checkout my-feature</kbd>
+                   </div>
+                   <div>
+                     <kbd>git rebase master</kbd>
+                   </div>
+                   "This operation works by 
+                   <ul>
+                     <li>
+                       going to the common ancestor of the two branches: 
+                       the one you’re on (my-feature) and the one you’re rebasing onto (master),
+                     </li>
+                     <li>
+                        getting the diff introduced by each commit of the branch you’re on, saving those diffs to temporary files,
+                     </li>
+                     <li>
+                        resetting the current branch (my-feature) to the same commit as the branch you are rebasing onto (master),
+                     </li>
+                     <li>
+                        and finally applying each change in turn."
+                     </li>
+                   </ul>
+                      In this way a fast-forward merge is possible:
+                      <div>
+                        <kbd>git checkout master</kbd>
+                      </div>
+                      <div>
+                        <kbd>git merge my-feature</kbd>
+                      </div>
+                      You can then push to the remote master:
+                      <div>
+                        <kbd>git push</kbd>
+                      </div>
+                  <pre>
+                  </pre>
+                </div>
+              </div>
+            </div><!-- card -->
+          </div><!-- accordion -->
+        </div><!-- col-12 -->
+      </div><!-- row -->
+
+      <div class="row">
+        <div class="col-12">
+          <h2 class="custom-h2">Developing a new feature</h2>
+          Whatever workflow you choose, you should follow the 
+          <a
+            target="_blank"
+            href="https://semver.org/"
+          >
+            semantic versioning
+          </a>
+          specification to increment the product version number.
+          In case of a new feature you may increment either the MAJOR or MINOR number.
+          <div class="accordion" id="dnf">
+            <div class="card">
+              <div class="card-header custom-card-header" id="dnf-headingTwo">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link collapsed"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#dnf-collapseTwo"
+                    aria-expanded="false"
+                    aria-controls="dnf-collapseTwo"
+                  >
+                    Trunk-Based Development
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="dnf-collapseTwo"
+                class="collapse"
+                aria-labelledby="dnf-headingTwo"
+                data-parent="#dnf"
+              >
+                <div class="card-body">
+                  <div>
+                    Trunk-Based development is "Continuous Integration". 
+                    The mainline is the trunk if you are using SVN.
+                    The mainline is the master branch of the origin repo if you are using Git.
+                  </div>
+                  <div>
+                    As stated above I (the developer) may or may not use a local feature-branch.
+                    <ul>
+                      <li>
+                        If I choose to use a local branch it should be short lived and 
+                        <a
+                          target="_blank"
+                          href="https://trunkbaseddevelopment.com/short-lived-feature-branches/"
+                        >
+                          not last more than a couple of days.
+                        </a>
+                      </li>
+                      <li>
+                        If I choose not to use a local branch, then I can 
+                        <a
+                          target="_blank"
+                          href="https://trunkbaseddevelopment.com/committing-straight-to-the-trunk/"
+                        >
+                          commit to the mainline.
+                        </a>
+                      </li>
+                    </ul>
+                    In both cases each integration step to the mainline requires a pull 
+                    (recommended with --rebase) and a merge (recommended to be a fast-forward).
+                    These integration steps should happen on a daily basis.
+                  </div>
+                  <div>
+                    The point is to maintain a healthy mainline, that is always ready to deliver to production.
+                    How can one developer achieve that goal?
+                    The solutions are the following:
+                    <ul>
+                      <li>
+                        Hide the partial feature
+                      </li>
+                      <li>
+                        <a
+                          target="_blank"
+                          href="https://trunkbaseddevelopment.com/feature-flags/"
+                        >
+                          Feature flags
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          target="_blank"
+                          href="https://trunkbaseddevelopment.com/branch-by-abstraction/"
+                        >
+                          Branch by abstration
+                      </a>
+                      </li>
+                    </ul>
+                  </div>
+                  So according to this workflow, you will:
+                  <ol>
+                    <li>
+                      pull the remote master.
+                    </li>
+                    <li>
+                      integrate and push to master on a daily basis, ensuring the master branch remains healthy and production-ready!
+                      <i>"Developers integrate their work by pulling from mainline, merging, and - if healthy - pushing back into mainline"</i>
+                      (<a target="_blank" href="https://martinfowler.com/articles/branching-patterns.html#mainline-integration">source</a>)
+                    </li>
+                  </ol>
+
+                </div><!-- card-body -->
+              </div><!-- collapse -->
+            </div><!-- card -->
+            <div class="card">
+              <div class="card-header custom-card-header" id="dnf-headingThree">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link collapsed"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#dnf-collapseThree"
+                    aria-expanded="false"
+                    aria-controls="dnf-collapseThree"
+                  >
+                    Github flow
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="dnf-collapseThree"
+                class="collapse"
+                aria-labelledby="dnf-headingThree"
+                data-parent="#dnf"
+              >
+                <div class="card-body">
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Dicta, sunt!
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header custom-card-header" id="dnf-headingFour">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link collapsed"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#dnf-collapseFour"
+                    aria-expanded="false"
+                    aria-controls="dnf-collapseFour"
+                  >
+                    Git-flow
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="dnf-collapseFour"
+                class="collapse"
+                aria-labelledby="dnf-headingFour"
+                data-parent="#dnf"
+              >
+                <div class="card-body">
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Dicta, sunt!
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header custom-card-header" id="dnf-headingFive">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link collapsed"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#dnf-collapseFive"
+                    aria-expanded="false"
+                    aria-controls="dnf-collapseFive"
+                  >
+                    Gitlab flow
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="dnf-collapseFive"
+                class="collapse"
+                aria-labelledby="dnf-headingFive"
+                data-parent="#dnf"
+              >
+                <div class="card-body">
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Dicta, sunt!
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header custom-card-header" id="dnf-headingSix">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link collapsed"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#dnf-collapseSix"
+                    aria-expanded="false"
+                    aria-controls="dnf-collapseSix"
+                  >
+                    Atlassian simple git workflow
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="dnf-collapseSix"
+                class="collapse"
+                aria-labelledby="dnf-headingSix"
+                data-parent="#dnf"
+              >
+                <div class="card-body">
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Dicta, sunt!
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!-- col-12 -->
+      </div><!-- row -->
+
+      <div class="row">
+        <div class="col-12">
+          <h2 class="custom-h2">Fixing a bug in production</h2>
+
+          <div class="accordion" id="fbp">
+            <div class="card">
+              <div class="card-header custom-card-header" id="fbp-headingTwo">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link collapsed"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#fbp-collapseTwo"
+                    aria-expanded="false"
+                    aria-controls="fbp-collapseTwo"
+                  >
+                    Trunk-Based Development
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="fbp-collapseTwo"
+                class="collapse"
+                aria-labelledby="fbp-headingTwo"
+                data-parent="#fbp"
+              >
+                <div class="card-body">
+                  <div>
+                    Trunk-Based development is "Continuous Integration". The mainline is the trunk.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header custom-card-header" id="fbp-headingThree">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link collapsed"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#fbp-collapseThree"
+                    aria-expanded="false"
+                    aria-controls="fbp-collapseThree"
+                  >
+                    Github flow
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="fbp-collapseThree"
+                class="collapse"
+                aria-labelledby="fbp-headingThree"
+                data-parent="#fbp"
+              >
+                <div class="card-body">
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Dicta, sunt!
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header custom-card-header" id="fbp-headingFour">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link collapsed"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#fbp-collapseFour"
+                    aria-expanded="false"
+                    aria-controls="fbp-collapseFour"
+                  >
+                    Git-flow
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="fbp-collapseFour"
+                class="collapse"
+                aria-labelledby="fbp-headingFour"
+                data-parent="#fbp"
+              >
+                <div class="card-body">
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Dicta, sunt!
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header custom-card-header" id="fbp-headingFive">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link collapsed"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#fbp-collapseFive"
+                    aria-expanded="false"
+                    aria-controls="fbp-collapseFive"
+                  >
+                    Gitlab flow
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="fbp-collapseFive"
+                class="collapse"
+                aria-labelledby="fbp-headingFive"
+                data-parent="#fbp"
+              >
+                <div class="card-body">
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Dicta, sunt!
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header custom-card-header" id="fbp-headingSix">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link collapsed"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#fbp-collapseSix"
+                    aria-expanded="false"
+                    aria-controls="fbp-collapseSix"
+                  >
+                    Atlassian simple git workflow
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="fbp-collapseSix"
+                class="collapse"
+                aria-labelledby="fbp-headingSix"
+                data-parent="#fbp"
+              >
+                <div class="card-body">
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Dicta, sunt!
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!-- col-12 -->
+      </div><!-- row -->    
+
+      <div class="row">
+        <div class="col-12">
+          <h2 class="custom-h2">Why Github Flow</h2>
+          One version in production
+          Small team of developers (i.e. many scm repos)
+          no need for Feature flag or Branch by abstration techniques... 
+
+          BUT: release on the mainline
+          https://trunkbaseddevelopment.com/alternative-branching-models/index.html#modern-claimed-high-throughput-branching-models
+        </div><!-- col-12 -->
+      </div><!-- row --> 
+
+    </div>
+  </body>
+</html>

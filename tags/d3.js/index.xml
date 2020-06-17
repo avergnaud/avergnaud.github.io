@@ -6,10 +6,20 @@
     <description>Recent content in D3.js on avergnaud.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 03 May 2020 10:55:48 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 14 Jun 2020 16:21:50 +0200</lastBuildDate>
     
 	<atom:link href="https://avergnaud.github.io/tags/d3.js/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ETHEUR MACD Trading Simulation</title>
+      <link>https://avergnaud.github.io/posts/etheur-trading-simu/</link>
+      <pubDate>Sun, 14 Jun 2020 16:21:50 +0200</pubDate>
+      
+      <guid>https://avergnaud.github.io/posts/etheur-trading-simu/</guid>
+      <description>&lt;p&gt;This scrollable graph is generating live simulations of MACD trading.
+The initial balance is &lt;b&gt;100&lt;/b&gt; (fiat) and the trading fees are &lt;b&gt;0.26%&lt;/b&gt; per trade.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>OHLC MACD chart</title>

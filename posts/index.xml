@@ -6,10 +6,37 @@
     <description>Recent content in Posts on avergnaud.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 03 May 2020 10:55:48 +0200</lastBuildDate>
+    <lastBuildDate>Mon, 15 Jun 2020 17:06:35 +0200</lastBuildDate>
     
 	<atom:link href="https://avergnaud.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ETHEUR MACD trading statistics</title>
+      <link>https://avergnaud.github.io/posts/eth-eur-macd-stats/</link>
+      <pubDate>Mon, 15 Jun 2020 17:06:35 +0200</pubDate>
+      
+      <guid>https://avergnaud.github.io/posts/eth-eur-macd-stats/</guid>
+      <description>&lt;p&gt;For every 1 year span of MACD trading on the ETHEUR market, how many simulations:&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;
+        beat the market?
+    &lt;/li&gt;
+    &lt;li&gt;
+        make a profit?
+    &lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>ETHEUR MACD Trading Simulation</title>
+      <link>https://avergnaud.github.io/posts/etheur-trading-simu/</link>
+      <pubDate>Sun, 14 Jun 2020 16:21:50 +0200</pubDate>
+      
+      <guid>https://avergnaud.github.io/posts/etheur-trading-simu/</guid>
+      <description>&lt;p&gt;This scrollable graph is generating live simulations of MACD trading.
+The initial balance is &lt;b&gt;100&lt;/b&gt; (fiat) and the trading fees are &lt;b&gt;0.26%&lt;/b&gt; per trade.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>OHLC MACD chart</title>

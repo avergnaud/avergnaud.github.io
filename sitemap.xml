@@ -3,6 +3,36 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://avergnaud.github.io/posts/eth-eur-macd-stats/</loc>
+    <lastmod>2020-06-15T17:06:35+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://avergnaud.github.io/tags/fintech/</loc>
+    <lastmod>2020-06-15T17:06:35+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://avergnaud.github.io/posts/</loc>
+    <lastmod>2020-06-15T17:06:35+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://avergnaud.github.io/tags/</loc>
+    <lastmod>2020-06-15T17:06:35+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://avergnaud.github.io/tags/d3.js/</loc>
+    <lastmod>2020-06-14T16:21:50+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://avergnaud.github.io/posts/etheur-trading-simu/</loc>
+    <lastmod>2020-06-14T16:21:50+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://avergnaud.github.io/</loc>
     <lastmod>2020-05-22T00:00:00+00:00</lastmod>
   </url>
@@ -13,22 +43,7 @@
   </url>
   
   <url>
-    <loc>https://avergnaud.github.io/tags/d3.js/</loc>
-    <lastmod>2020-05-03T10:55:48+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://avergnaud.github.io/tags/fintech/</loc>
-    <lastmod>2020-05-03T10:55:48+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://avergnaud.github.io/posts/ohlc-macd-span/</loc>
-    <lastmod>2020-05-03T10:55:48+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://avergnaud.github.io/posts/</loc>
     <lastmod>2020-05-03T10:55:48+02:00</lastmod>
   </url>
   
@@ -39,11 +54,6 @@
   
   <url>
     <loc>https://avergnaud.github.io/tags/spring/</loc>
-    <lastmod>2020-05-03T10:55:48+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://avergnaud.github.io/tags/</loc>
     <lastmod>2020-05-03T10:55:48+02:00</lastmod>
   </url>
   

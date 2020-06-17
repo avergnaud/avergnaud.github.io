@@ -36,6 +36,7 @@ class MacdChart {
         this.createScales(newData);
         this.addAxes();
         this.drawOhlc(newData);
+        this.drawMacdLegend();
         this.drawMacd(newData);
     }
 
@@ -139,6 +140,31 @@ class MacdChart {
         this.zoom = d3.zoom()
             .on("zoom", () => this.zoomed(newData));
         this.svg.call(this.zoom);
+    }
+
+    drawMacdLegend() {
+        /* signal */
+        this.macdG.append("circle")
+            .attr("cx", this.margin.yaxis + 10)
+            .attr("cy",10)
+            .attr("r", 6)
+            .style("fill", "red");
+        this.macdG.append("text")
+            .attr("x", this.margin.yaxis + 20)
+            .attr("y", 15)
+            .text("Signal")
+            .style("font-size", "0.8rem");
+        /* MACD */
+        this.macdG.append("circle")
+            .attr("cx", this.margin.yaxis + 10)
+            .attr("cy",30)
+            .attr("r", 6)
+            .style("fill", "blue");
+        this.macdG.append("text")
+            .attr("x", this.margin.yaxis + 20)
+            .attr("y", 35)
+            .text("MACD")
+            .style("font-size", "0.8rem");
     }
 
     /* draws the MACD part of the graph */
