@@ -3,7 +3,8 @@ var svg = d3.select("svg"),
   margin2 = { top: 430, right: 30, bottom: 30, left: 40 },
   width = 960 - margin.left - margin.right,
   height = 500 - margin.top - margin.bottom,
-  height2 = 500 - margin2.top - margin2.bottom;
+  height2 = 500 - margin2.top - margin2.bottom,
+  legendOffset = 20;
 
 svg.attr(
   "viewBox",
@@ -78,25 +79,53 @@ var context = svg
 var identity = d3.zoomIdentity;
 
 /* legends */
-svg.append("circle")
-    .attr("cx", 10)
-    .attr("cy",20)
-    .attr("r", 6)
-    .style("fill", "steelblue");
+svg.append("line")
+  .attr("x1",5)
+  .attr("y1", legendOffset)
+  .attr("x2",25)
+  .attr("y2", legendOffset)
+  .style("stroke-width", 4)
+  .style("stroke", "steelblue")
+  .style("fill", "none");
 svg.append("text")
-    .attr("x", 20)
-    .attr("y", 25)
+    .attr("x", 30)
+    .attr("y", legendOffset + 5)
     .text("ETHEUR market price")
     .style("font-size", "1rem");
-svg.append("circle")
-    .attr("cx", width - 130)
-    .attr("cy",20)
+let signalsLegendG = svg.append("g")
+  .attr("transform", `translate(${width/2}, ${legendOffset})`);
+signalsLegendG.append("circle")
+    .attr("cx", 0)
+    .attr("cy", 0)
     .attr("r", 6)
     .style("fill", "green");
+signalsLegendG.append("text")
+    .attr("x", 15)
+    .attr("y", 5)
+    .text("Buy Signal")
+    .style("font-size", "1rem");
+signalsLegendG.append("circle")
+    .attr("cx", 0)
+    .attr("cy", 25)
+    .attr("r", 6)
+    .style("fill", "red");
+signalsLegendG.append("text")
+    .attr("x", 15)
+    .attr("y", 30)
+    .text("Sell Signal")
+    .style("font-size", "1rem");
+svg.append("line")
+  .attr("x1",width - 105)
+  .attr("y1", legendOffset)
+  .attr("x2",width - 85)
+  .attr("y2", legendOffset)
+  .style("stroke-width", 4)
+  .style("stroke", "#cfb53b")
+  .style("fill", "none");
 svg.append("text")
-    .attr("x", width - 120)
-    .attr("y", 25)
-    .text("Profit balance (base 100)")
+    .attr("x", width - 80)
+    .attr("y", legendOffset + 5)
+    .text("Balance (base 100)")
     .style("font-size", "1rem");
 
 const yAxisG = focus.append("g").attr("class", "axis axis--y");
@@ -242,14 +271,14 @@ function zoomed(json) {
   const fees = 0.0026;
   let totalBalance = computeMacdSimulation(initialBalance, fees, visibleData);
 
-  let yBalanceMax = d3.max(visibleData, (d) => d.balance) + yMargin;
+  let yBalanceMax = d3.max(visibleData, (d) => d.trading.balance) + yMargin;
   yBalance.domain([0, yBalanceMax]);
   yAxisRightG.call(yAxisRight);
 
   var balanceLine = d3
     .line()
     .x(d => x(d.date))
-    .y(d => yBalance(d.balance));
+    .y(d => yBalance(d.trading.balance));
   var baselineBalanceLine = d3.line()
     .x(d => x(d.date))
     .y(d => yBalance(initialBalance));
@@ -280,4 +309,26 @@ function zoomed(json) {
   ).innerHTML = `profit ${botPerformance}% / market ${marketPerformance}%`;
 
   context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
+
+  focus.selectAll("circle")
+    .remove();
+  /* trading events */
+  for(item of visibleData) {
+    if(item.trading && item.trading.event) {
+      console.log(item.date, item.closingPrice);
+      console.log(item.trading);
+
+      let color = "red";
+      if(item.trading.event === 'BUY_SIGNAL') {
+        color = "green";
+      }
+
+      focus.append("circle")
+        .attr("cx", () => x(item.date))
+        .attr("cy", () => y(item.closingPrice))
+        .attr("r", 5)
+        .style("fill", color);
+
+    }
+  }
 }

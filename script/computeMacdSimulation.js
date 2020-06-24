@@ -19,17 +19,22 @@ function computeMacdSimulation(initialBalance, fees, data) {
     totalBalance = initialBalance;
   
     for (const item of data) {
+
       let newIsEur = item.macdValue < item.signalValue;
+      item.trading = {};
       /* case 1 : same state */
       if (newIsEur === isEur) {
-        item.balance = totalBalance;
+        item.trading.balance = totalBalance;
         continue;
-      } else if (newIsEur) {
+      } 
+      
+      if (newIsEur) {
         /* case 2 : state change, SELL SIGNAL */
         let payedFees = cryptoBalance * item.closingPrice * fees;
         eurBalance = cryptoBalance * item.closingPrice - payedFees;
         totalBalance = eurBalance;
         cryptoBalance = 0;
+        item.trading.event = 'SELL_SIGNAL';
       } else {
         /* case 3: state change, BUY SIGNAL */
         let payedFees = eurBalance * fees;
@@ -37,10 +42,13 @@ function computeMacdSimulation(initialBalance, fees, data) {
         totalBalance = eurBalance;
         cryptoBalance = eurBalance / item.closingPrice;
         eurBalance = 0;
+        item.trading.event = 'BUY_SIGNAL';
       }
       /* update portfolio State */
       isEur = newIsEur;
-      item.balance = totalBalance;
+      item.trading.eurBalance = eurBalance;
+      item.trading.cryptoBalance = cryptoBalance;
+      item.trading.balance = totalBalance;
     }
   
     return totalBalance;

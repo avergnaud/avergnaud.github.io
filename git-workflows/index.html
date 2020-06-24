@@ -9,6 +9,10 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <style>
+      p {
+        margin-top: 1rem;
+      }
+
       .card-header.custom-card-header {
         padding: 0.25rem 1.25rem;
       }
@@ -16,7 +20,11 @@
         margin-top: 4rem;
       }
       h3.custom-h3 {
+        border-bottom: 1px solid rgba(0,0,0,.125);
         margin-top: 1.75rem;
+      }
+      h4.custom-h4 {
+        margin-top: 2rem;
       }
       img.custom-img {
         max-width: 100%;
@@ -27,6 +35,19 @@
       .parenthese {
         margin: 10px 0 10px 15px;
       }
+      .cmd-snippet {
+        margin: 1rem 0 1rem 0;
+      }
+      .cmd-snippet > div {
+        display: block;
+      }
+      .cmd-snippet kbd {
+        margin-left: 2rem;
+      }
+      .cmd-snippet code {
+        display: block;
+        margin-left: 2rem;
+      }
     </style>
   </head>
   <body>
@@ -34,12 +55,15 @@
       <div class="jumbotron">
         <h1 class="display-4">Git workflows</h1>
         <hr class="my-4">
-          This article is based on 
+          This article was originally inspired from  
           <a 
             target="_blank"
             href="https://martinfowler.com/articles/branching-patterns.html"  
-          >Martin Fowler's Branching Patterns article</a>.
-          The first sections deal with common topics:
+          >Martin Fowler's Branching Patterns article</a>, but quickly included many other sources...
+          <p>
+            The first section gathers general notes on Git.
+          </p>
+          The following sections deal with common topics:
           <ul>
             <li>How to maintain a linear commit history</li>
             <li>
@@ -72,10 +96,15 @@
           </ul>
           The next sections compare the various Git workflows for two use cases:
           <ul>
-            <li>Developing a new feature and releasing it</li>
-            <li>Fixing a bug an releasing the bugfix</li>
+            <li>Developing a new feature</li>
+            <li>Fixing a production bug</li>
           </ul>
-          I finally explain why a (small) variant of <u>Github Flow</u> is my personal preference for:
+          <p>
+            Then the release process is briefly mentioned.
+          </p>
+          <div>
+            I finally explain why a (small) variant of <u>Github Flow</u> is my personal preference for:
+          </div>
           <ul>
             <li>
               Applications that run with a single version in production. This is the most common case according to my personal work experience.
@@ -86,8 +115,440 @@
               or a few developers who are managed by a technical leader.
             </li>
           </ul>
-          
-      </div>
+      </div><!-- jumbotron -->
+
+
+
+      <div class="row">
+        <div class="col-12">
+          <h2 class="custom-h2">Some notes on Git</h2>
+          <div>
+            This section does not qualify as a proper Git introduction.
+            You should read the 
+            <a
+              target="_blank"
+              href="https://git-scm.com/doc"
+            >
+              official documentation
+            </a>
+          </div>
+          <div class="accordion" id="nag">
+            <div class="card">
+              <div class="card-header custom-card-header" id="nag-headingOne">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#nag-collapseOne"
+                    aria-expanded="false"
+                    aria-controls="nag-collapseOne"
+                  >
+                    Here are a few notes and HOWTOs...
+                  </button>
+                </h2>
+              </div>
+
+              <div
+                id="nag-collapseOne"
+                class="collapse"
+                aria-labelledby="nag-headingOne"
+                data-parent="#nag"
+              >
+                <div class="card-body">
+                  <h3 class="custom-h3">Git main states</h3>
+                  <a
+                    target="_blank"
+                    href="https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository"
+                  >
+                  From the documentation:
+                  </a>
+                  <div id="lifecycle">
+                    <img class="custom-img" src="img/lifecycle.png" alt="Git lifecycle" />
+                  </div>
+                  <p>
+                    The <b>.gitignore</b> file defines which directories and files in your working directory are not even untracked.
+                  </p>
+                  <div>
+                    <kbd>git status</kbd> informs you about:
+                    <ul>
+                      <li>
+                        <b>untracked files</b> ("Untracked files"),
+                      </li>
+                      <li>
+                        <b>tracked and modified files</b> ("Changes not staged for commit"),
+                      </li>
+                      <li>
+                        <b>staged files</b> ("Changes to be committed")
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <a
+                      target="_blank"
+                      href="https://stackoverflow.com/questions/3636914/how-can-i-see-what-i-am-about-to-push-with-git"
+                    >
+                      This Stackoverflow question
+                    </a>
+                     asks <b>"How can I see what I am about to push?"</b>
+                     The correct answer is in the comment section...
+                  </div>
+                  <p>
+                    I modify a README.md file in a fresh local repository.
+                    Then I stage the file with:
+                    <br>
+                    <kbd>git add README.md</kbd>
+                  </p>
+                  <div class="cmd-snippet">
+                    The command:
+                    <div>
+                      <kbd>git status</kbd>
+                    </div>
+                    returns:
+                      <code>
+                        Changes to be committed:<br>
+                        (use "git restore --staged &ltfile&gt..." to unstage)<br>
+                        modified:   README.md
+                      </code>
+                  </div>
+                  <div class="cmd-snippet">
+                    1. The command:
+                    <div>
+                      <kbd>git diff --stat --cached origin/master</kbd>
+                    </div>
+                    returns:
+                      <code>
+                        README.md | 1 +<br>
+                        1 file changed, 1 insertion(+)
+                      </code>
+                  </div>
+                  <div class="cmd-snippet">
+                    2. The command:
+                    <div>
+                      <kbd>git diff --stat origin/master HEAD</kbd>
+                    </div>
+                    does not return anything.
+                  </div>
+                  <div class="cmd-snippet">
+                    And indeed
+                    <div>
+                      <kbd>git push</kbd>
+                    </div>
+                    returns:
+                      <code>
+                        Everything up-to-date
+                      </code>
+                  </div>
+                  <p>
+                    If I commit then the two commands return the same result. And <kbd>git push</kbd> actually pushes the change.
+                  </p>
+                  <h3 class="custom-h3">HEAD</h3>
+                  The above command diffed the master branch on the origin repo with the local <kbd>HEAD</kbd>.
+                  <a
+                    target="_blank"
+                    href="https://stackoverflow.com/questions/2304087/what-is-head-in-git"
+                  >
+                    This SO question
+                  </a> asks "What is HEAD"? Multiple wordings are proposed:
+                  <p>
+                    <ul>
+                      <li>
+                        "You can think of the HEAD as the current branch. When you switch branches with git checkout, the HEAD revision changes to point to the tip of the new branch"
+                      </li>
+                      <li>
+                        "HEAD is the name given to the commit from which the working tree's current state was initialized. In more practical terms, it can be thought of as a symbolic reference to the checked-out commit".
+                        Also:
+                        <a
+                          target="_blank"
+                          href="http://marklodato.github.io/visual-git-guide/index-en.html#commit"
+                        >
+                          as explained here
+                        </a>, and
+                        <a
+                          target="_blank"
+                          href="http://onlywei.github.io/explain-git-with-d3/#commit"
+                        >
+                          there
+                        </a>,
+                        HEAD is updated to the last commit on each commit.
+                        <div>
+                          <a
+                            target="_blank"
+                            href="http://marklodato.github.io/visual-git-guide/index-en.html#commit"
+                          >
+                            <img class="custom-img" src="img/commit-master.svg.png" alt="Git commit" />
+                          </a>
+                        </div>
+                      </li>
+                      <li>
+                        "You can think of the HEAD as the current commit on the current branch"
+                      </li>
+                      <li>
+                        Finally
+                        <a
+                          target="_blank"
+                          href="https://nfarina.com/post/9868516270/git-is-simpler#branches"
+                        >
+                          this great article
+                        </a> gives us a technical definition:
+                        <p>
+                          A branch is "the hash of the last commit scribbled down in a file. It’s a clue, a starting point, sometimes called a tip because this represents the tip of the iceberg that is the entire history of the branch"
+                        </p>
+                        <div class="cmd-snippet">
+                          The command:
+                          <div>
+                            <kbd>cat .git/refs/heads/master</kbd>
+                          </div>
+                          returns:
+                            <code>
+                              0d0321f29f04f734e8d9873e34d9409fe115b496
+                            </code>
+                        </div>
+                        <p>
+                          "And since you can have multiple branches in a repository, we should also remember which one we’re working on right now."
+                        </p>
+                        <div class="cmd-snippet">
+                          The command:
+                          <div>
+                            <kbd>cat .git/HEAD</kbd>
+                          </div>
+                          returns:
+                            <code>
+                              ref: refs/heads/master
+                            </code>
+                        </div>
+                      </li>
+                    </ul>
+                    <p class="lead">
+                      HEAD is a reference to the last commit in the currently checked-out branch. 
+                    </p>
+                    That is why <kbd>git diff --stat origin/master HEAD</kbd>
+                    compares the HEAD of the <b>master</b> branch of the origin repo, with the HEAD of the current local branch...
+                    (assumed to be the <b>master</b> branch of the local repo)
+                  </p>
+
+                  <h3 class="custom-h3">More about states</h3>
+                  <a
+                    target="_blank"
+                    href="https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F#_the_three_states"
+                  >
+                    From the documentation:
+                  </a>
+                  "Git has three main states that your files can reside in: modified, staged, and committed:
+                  <ul>
+                    <li>
+                      Modified means that you have changed the file but have not committed it to your database yet.
+                    </li>
+                    <li>
+                      Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
+                    </li>
+                    <li>
+                      Committed means that the data is safely stored in your local database.
+                    </li>
+                  </ul>
+                  <p>
+                    This leads us to the three main sections of a Git project: the working tree, the staging area, and the Git directory."
+                  </p>
+                    <a
+                      target="_blank"
+                      href="https://stackoverflow.com/questions/55877484/is-committed-and-unmodified-the-same"
+                    >
+                      This SO question
+                    </a> explains the difference between:
+                    <ul>
+                      <li>Tracked / untracked</li>
+                      <li>(Unmodified /) modified / staged / committed</li>
+                    </ul>
+                    <p>
+                      The basic Git operations are summed up in the following diagram:
+                      <div id="git-states">
+                        <img class="custom-img" src="img/git_states.png" alt="Git operations" />
+                      </div>
+                    </p>
+                    <h4 class="custom-h4">
+                      How to revert un-staged changes to the last committed revision?
+                    </h4>
+
+                    <div class="cmd-snippet">
+                      If I modify the README.md file, the command:
+                      <div>
+                        <kbd>git status</kbd>
+                      </div>
+                      returns:
+                        <code>
+                          On branch master<br>
+                          Your branch is up to date with 'origin/master'.<br>
+                          <br>
+                          Changes not staged for commit:<br>
+                            (use "git add &lt;file&gt;..." to update what will be committed)<br>
+                            (use "git restore &lt;file&gt;..." to discard changes in working directory)<br>
+                            modified:   README.md<br>
+                            <br>
+                          no changes added to commit (use "git add" and/or "git commit -a")<br>
+                        </code>
+                    </div>
+                      <p>
+                        If I later want to revert this modification. Then I can use: <kbd>git checkout README.md</kbd>
+                      </p>
+                      <h4 class="custom-h4">
+                        How to revert staged changes to the last committed revision?
+                      </h4>
+                      <p>
+                        The first step is to undo <kbd>git add</kbd>
+                      </p>
+                      <p>
+                        In this case I modified the README.md file, then I staged the file using
+                        <kbd>git add README.md</kbd>
+                      </p>
+                      <div class="cmd-snippet">
+                        The command:
+                        <div>
+                          <kbd>git status</kbd>
+                        </div>
+                        returns:
+                          <code>
+                            On branch master<br>
+                            Your branch is up to date with 'origin/master'.<br>
+                            <br>
+                            Changes to be committed:<br>
+                              (use "git restore --staged &lt;file&gt;..." to unstage)<br>
+                              modified:   README.md<br>
+                          </code>
+                      </div>
+                      <div class="cmd-snippet">
+                        This time the command is:
+                        <div>
+                          <kbd>git reset README.md</kbd>
+                        </div>
+                        which returns:
+                          <code>
+                            Unstaged changes after reset:<br>
+                            M	README.md
+                          </code>
+                      </div>
+                      <p>
+                        The reset has removed staged changes from the commit index.
+                        The local modification is still present in the work-tree.
+                        I can include it in a later commit.
+                      </p>
+                      <p>
+                        But still, if I want to completely revert the modification, I then use <kbd>git checkout README.md</kbd> as previously.
+                      </p>
+                      <h4 class="custom-h4">
+                        How to revert a committed change?
+                      </h4>
+                      <p>
+                        <a
+                          target="_blank"
+                          href="https://stackoverflow.com/questions/927358/how-do-i-undo-the-most-recent-local-commits-in-git"
+                        >
+                          This SO question
+                        </a> gives the answer.
+                      </p>
+                      <p>
+                        The key is <kbd>git reset HEAD~</kbd>, which is equivalent to <kbd>git reset HEAD~1</kbd>.
+                      </p>
+                      <p>
+                        This command brings the index back to 1 commit before the last commit.
+                      </p>
+                      <h4 class="custom-h4">checkout and merge</h4>
+                      <p>
+                        The <a href="#git-states">above diagram</a> may be misleading because both <kbd>checkout</kbd>
+                        and <kbd>merge</kbd> seem to apply modifications from the local repository to the working directory.
+                      </p>
+                      <p>
+                        <a
+                          target="_blank"
+                          href="https://git-scm.com/docs/git-checkout"
+                        >
+                          git checkout
+                        </a> is used to switch branches (or restore working tree files, as shown above). 
+                        The command will not proceed if the index or the working tree differs from HEAD.
+                      </p>
+                      <p>
+                        <a
+                          target="_blank"
+                          href="https://git-scm.com/docs/git-merge"
+                        >
+                          git merge
+                        </a> "incorporates changes from the named commits (since the time their histories diverged from the current branch) into the current branch. 
+                        This command is used by <kbd>git pull</kbd> to incorporate changes from another repository and can be used by hand to merge changes from one branch into another."
+                      </p>
+                      <p>
+                        A fast-forward merge does not create a commit. A "regular" merge creates a commit.
+                        <a href="#lh">
+                          The next section
+                        </a> provides some details about that.
+                      </p>
+
+                      <h4 class="custom-h4">How to merge commits from other contirbutors</h4>
+
+                      As advised
+                      <a
+                        target="_blank"
+                        href="https://longair.net/blog/2009/04/16/git-fetch-and-merge/"
+                      >
+                        here
+                      </a>, <b>"fetch and merge, don't pull"</b>.
+                      <p>
+                        You may want to avoid a merge commit by doing a rebase.
+                        But you should only do it on a local not shared branch.
+                        This is the golden rule of rebase, detailled 
+                        <a
+                          target="_blank"
+                          href="https://www.daolf.com/posts/git-series-part-2/"
+                        >
+                          here
+                        </a>. In this case you may follow the steps detailled
+                        <a
+                          href="#lh"
+                        >
+                          below
+                        </a>.
+                      </p>
+
+                      <h3 class="custom-h3">Git storage, branches and tags</h3>
+                      I recommend reading
+                      <ol>
+                        <li>
+                          <a
+                            href="https://stackoverflow.com/questions/8198105/how-does-git-store-files"
+                          >
+                            This SO question
+                          </a> that explains how Git stores files. 
+                          <div>
+                            <img class="custom-img" src="img/git-storage.png" alt="Git storage" />
+                          </div>
+                        </li>
+                        <li>
+                          <a
+                            target="_blank"
+                            href="https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell"
+                          >
+                            The official documentation <b>Git Branching - Branches in a Nutshell</b>
+                          </a>
+                        </li>
+                        <li>
+                          And
+                          <a
+                            target="_blank"
+                            href="https://git-scm.com/book/en/v2/Git-Basics-Tagging"
+                          >
+                            these</a> 
+                          <a
+                            target="_blank"
+                            href="https://www.atlassian.com/git/tutorials/inspecting-a-repository/git-tag"
+                          >
+                            two</a> resources about git tags
+                        </li>
+                      </ol>
+                      
+                </div><!-- card-body -->
+              </div><!-- collapse -->
+            </div><!-- card -->
+          </div><!-- accordion -->
+        </div><!-- col-12 -->
+      </div><!-- row -->
 
       <div class="row">
         <div class="col-12">
@@ -176,19 +637,24 @@
                       alt="non linear history 1"
                     />
                   </div>
-                  What happens if I try the same fast-forward merge?
-                  <div>
-                    <kbd>git checkout master</kbd>
+                  
+                  <div class="cmd-snippet">
+                    What happens if I try the same fast-forward merge?
+                    <div>
+                      <kbd>git checkout master</kbd>
+                    </div>
                   </div>
-                  <div>
-                    <kbd>git merge my-feature</kbd>
-                  </div>
-                  I get the following error:
-                  <div>
-                    <pre>
-  Auto-merging README.md
-  CONFLICT (content): Merge conflict in README.md
-  Automatic merge failed; fix conflicts and then commit the result.</pre>
+                  <div class="cmd-snippet">
+                    and:
+                    <div>
+                      <kbd>git merge my-feature</kbd>
+                    </div>
+                    returns the following error:
+                      <code>
+                        Auto-merging README.md<br>
+                        CONFLICT (content): Merge conflict in README.md<br>
+                        Automatic merge failed; fix conflicts and then commit the result.
+                      </code>
                   </div>
                   and this history graph:
                   <div>
@@ -198,15 +664,21 @@
                       alt="non linear history 2"
                     />
                   </div>
-                  The uncommitted changes are quite simple in my case:
-                  <pre>
-  <<<<<<< HEAD
-  something else
-  =======
-  A B C
-  >>>>>>> my-feature</pre>
-                  I then have to manually resolve the conflict, add the file and commit to the master.
-                  But this will <b>not</b> result in a linear commit history.
+                  <div class="cmd-snippet">
+                    The uncommitted changes are quite simple in my case:
+                      <code>
+                        &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD<br>
+                        something else<br>
+                        =======<br>
+                        A B C<br>
+                        &gt;&gt;&gt;&gt;&gt;&gt;&gt; my-feature<br>
+                      </code>
+                  </div>
+                  <p>
+                    I then have to manually resolve the conflict, add the file and commit to the master.
+                    But this will <b>not</b> result in a linear commit history.
+                  </p>
+
                   <h3 class="custom-h3">Using rebase</h3>
                   I am going to use rebase on the local my-feature branch. This branch is not public.
                   So the 
@@ -221,36 +693,46 @@
                       alt="non linear history 1"
                     />
                   </div>
-                  Then I rebase to change the root of my-feature branch from the old master to the tip of the latest master.
-                  <div>
-                    <kbd>git checkout my-feature</kbd>
+                  <div class="cmd-snippet">
+                    Then I rebase to change the root of my-feature branch from the old master to the tip of the latest master.
+                    <div>
+                      <kbd>git checkout my-feature</kbd>
+                    </div>
                   </div>
-                  <div>
-                    <kbd>git rebase master</kbd>
+                  <div class="cmd-snippet">
+                    <div>
+                      <kbd>git rebase master</kbd>
+                    </div>
+                    returns the following error:
+                      <code>
+                        First, rewinding head to replay your work on top of it...<br>
+                        Applying: modification A<br>
+                        Using index info to reconstruct a base tree...<br>
+                        M	README.md<br>
+                        Falling back to patching base and 3-way merge...<br>
+                        Auto-merging README.md<br>
+                        CONFLICT (content): Merge conflict in README.md<br>
+                        error: Failed to merge in the changes.<br>
+                        Patch failed at 0001 modification A<br>
+                        hint: Use 'git am --show-current-patch' to see the failed patch<br>
+                        Resolve all conflicts manually, mark them as resolved with<br>
+                        "git add/rm &lt;conflicted_files&gt;", then run "git rebase --continue".<br>
+                        You can instead skip this commit: run "git rebase --skip".<br>
+                        To abort and get back to the state before "git rebase", run "git rebase --abort".
+                      </code>
                   </div>
-                  I get the following error:
-                  <pre>
-  First, rewinding head to replay your work on top of it...
-  Applying: modification A
-  Using index info to reconstruct a base tree...
-  M	README.md
-  Falling back to patching base and 3-way merge...
-  Auto-merging README.md
-  CONFLICT (content): Merge conflict in README.md
-  error: Failed to merge in the changes.
-  Patch failed at 0001 modification A
-  hint: Use 'git am --show-current-patch' to see the failed patch
-  Resolve all conflicts manually, mark them as resolved with
-  "git add/rm &lt;conflicted_files&gt;", then run "git rebase --continue".
-  You can instead skip this commit: run "git rebase --skip".
-  To abort and get back to the state before "git rebase", run "git rebase --abort".</pre>
-                  The uncommitted changes are only related to the first commit "modification A":
-                  <pre>
-  <<<<<<< HEAD
-  something else
-  =======
-  A
-  >>>>>>> modification A</pre>
+                  <div class="cmd-snippet">
+                    The uncommitted changes are only related to the first commit "modification A":
+                      <code>
+                        &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD<br>
+                        something else<br>
+                        =======<br>
+                        A<br>
+                        &gt;&gt;&gt;&gt;&gt;&gt;&gt; modification A
+                      </code>
+                  </div>
+
+
                   Git invites me to manually resolve the conflict:
                   <pre>
   something else
@@ -360,30 +842,59 @@
       <div class="row">
         <div class="col-12">
           <h2 class="custom-h2">Local branches</h2>
-          <ul>
-            <li>
-              If you choose
-              <a
-                target="_blank"
-                href="https://martinfowler.com/articles/branching-patterns.html#continuous-integration"
+
+          <div class="accordion" id="lfb">
+            <div class="card">
+              <div class="card-header custom-card-header" id="lfb-headingOne">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#lfb-collapseOne"
+                    aria-expanded="false"
+                    aria-controls="lfb-collapseOne"
+                  >
+                    Creating a local feature branch
+                  </button>
+                </h2>
+              </div>
+
+              <div
+                id="lfb-collapseOne"
+                class="collapse"
+                aria-labelledby="lfb-headingOne"
+                data-parent="#lfb"
               >
-                Continuous Integration
-              </a>
-              then you may use a local branch or not. "Most people who
-              use Continuous Integration don't bother with a separate
-              local branch to work on".
-            </li>
-            <li>
-              If you choose
-              <a
-                target="_blank"
-                href="https://martinfowler.com/articles/branching-patterns.html#feature-branching"
-              >
-                Feature Branching
-              </a>
-              then you have to create a local branch.
-            </li>
-          </ul>
+                <div class="card-body">
+                  <ul>
+                    <li>
+                      If you choose
+                      <a
+                        target="_blank"
+                        href="https://martinfowler.com/articles/branching-patterns.html#continuous-integration"
+                      >
+                        Continuous Integration
+                      </a>
+                      then you may use a local branch or not. "Most people who
+                      use Continuous Integration don't bother with a separate
+                      local branch to work on".
+                    </li>
+                    <li>
+                      If you choose
+                      <a
+                        target="_blank"
+                        href="https://martinfowler.com/articles/branching-patterns.html#feature-branching"
+                      >
+                        Feature Branching
+                      </a>
+                      then you have to create a local branch.
+                    </li>
+                  </ul>
+                </div><!-- card-body -->
+              </div><!-- collapse -->
+            </div><!-- card -->
+          </div><!-- accordion -->
 
           <div class="accordion" id="lb">
             <div class="card">
@@ -397,7 +908,7 @@
                     aria-expanded="false"
                     aria-controls="lb-collapseOne"
                   >
-                    How to develop on a local branch
+                    Rebasing your local branch onto the mainline
                   </button>
                 </h2>
               </div>
@@ -409,6 +920,9 @@
                 data-parent="#lb"
               >
                 <div class="card-body">
+                  <p class="lead">
+                    <b>Important: </b>This technique is not used for the git-flow workflow.
+                  </p>
                   On the local master branch:
                   <div>
                     <kbd>git pull --rebase</kbd>
@@ -432,9 +946,11 @@
                    <div>
                      <kbd>git pull --rebase</kbd>
                    </div>
-                   At this point there may be new changes on the local master branch.
-                   So you integrate those changes from master into my-feature, <b>by reapplying your commits on top of the master's head</b>
-                   You checkout the my-feature branch and then rebase it onto the master branch:
+                   <p>
+                    At this point there may be new changes on the local master branch.
+                    So you integrate those changes from master into my-feature, <b>by reapplying your commits on top of the master's head.</b>
+                  </p>
+                  You checkout the my-feature branch and then rebase it onto the master branch:
                    <div>
                      <kbd>git checkout my-feature</kbd>
                    </div>
@@ -468,8 +984,6 @@
                       <div>
                         <kbd>git push</kbd>
                       </div>
-                  <pre>
-                  </pre>
                 </div>
               </div>
             </div><!-- card -->
@@ -519,33 +1033,26 @@
                   </div>
                   <div>
                     As stated above I (the developer) may or may not use a local feature-branch.
-                    <ul>
-                      <li>
-                        If I choose to use a local branch it should be short lived and 
+                    If I choose not to use a local branch, then I can 
+                    <a
+                      target="_blank"
+                      href="https://trunkbaseddevelopment.com/committing-straight-to-the-trunk/"
+                    >
+                      commit to the mainline.
+                      <p>
                         <a
                           target="_blank"
                           href="https://trunkbaseddevelopment.com/short-lived-feature-branches/"
                         >
-                          not last more than a couple of days.
-                        </a>
-                      </li>
-                      <li>
-                        If I choose not to use a local branch, then I can 
-                        <a
-                          target="_blank"
-                          href="https://trunkbaseddevelopment.com/committing-straight-to-the-trunk/"
-                        >
-                          commit to the mainline.
-                        </a>
-                      </li>
-                    </ul>
-                    In both cases each integration step to the mainline requires a pull 
-                    (recommended with --rebase) and a merge (recommended to be a fast-forward).
-                    These integration steps should happen on a daily basis.
+                          Under certain conditions 
+                        </a>,
+                        developers may create <b>remote</b>, <b>short lived</b> feature branches.
+                      </p>
+                    
                   </div>
                   <div>
                     The point is to maintain a healthy mainline, that is always ready to deliver to production.
-                    How can one developer achieve that goal?
+                    How to achieve that goal in the middle of a development?
                     The solutions are the following:
                     <ul>
                       <li>
@@ -569,7 +1076,7 @@
                       </li>
                     </ul>
                   </div>
-                  So according to this workflow, you will:
+                  So according to this workflow, you will usually:
                   <ol>
                     <li>
                       pull the remote master.
@@ -580,6 +1087,39 @@
                       (<a target="_blank" href="https://martinfowler.com/articles/branching-patterns.html#mainline-integration">source</a>)
                     </li>
                   </ol>
+                    
+                  <h3 class="custom-h3">Where is the release performed?</h3>
+
+                  <h4 class="custom-h4">General rule</h4>
+                  <a
+                    target="_blank"
+                    href="https://trunkbaseddevelopment.com/5-min-overview/"
+                  >
+                    From the documentation:
+                  </a>"A key facilitating rule is that Trunk-Based Development teams exclusively <b>either</b>
+                   release directly from the trunk - see 
+                   <a
+                    target="_blank"
+                    href="https://trunkbaseddevelopment.com/release-from-trunk/"
+                   >
+                   release from trunk
+                   </a>, or they make a branch from the trunk specifically for the actual release. 
+                   See 
+                   <a
+                    target="_blank"
+                    href="https://trunkbaseddevelopment.com/branch-for-release/"
+                   >
+                   Branch for release
+                   </a>. Teams with a higher release cadence do the former, 
+                   and those with a lower release cadence do the latter."
+                   
+                  <h4 class="custom-h4">Which one is your case?</h4>
+                  How do you know if you have a "higher release cadence"?
+                  <p>
+                    If you have to push bug-fix releases between planned releases, 
+                    then you do not have a "higher release cadence".
+                    And you have to create release branches.
+                  </p>
 
                 </div><!-- card-body -->
               </div><!-- collapse -->
@@ -633,8 +1173,101 @@
                 data-parent="#dnf"
               >
                 <div class="card-body">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Dicta, sunt!
+                  <p>
+                    The mainline is the <b>develop</b> branch.
+                  </p>
+
+                  <h3 class="custom-h3">The feature branch</h3>
+
+                  <p>
+                    "The essence of a feature branch is that it exists as long as the feature is in development, but will eventually be merged back into develop."
+                  </p>
+                  <p>
+                    "Feature branches typically exist in developer repos only, not in origin."
+                  </p>
+
+                  You first create a branch from the develop branch:
+                  <div><kbd>git checkout -b my-feature develop</kbd></div>
+                  <p>
+                    During your local development you keep commiting on this local branch.
+                  </p>
+                  <p>
+                    Once the feature is finished, you do not rebase my-feature branch onto the master branch.
+                  </p>
+                  <a
+                    target="_blank"
+                    href="https://nvie.com/posts/a-successful-git-branching-model/#feature-branches"
+                  >
+                    The official documentation
+                  </a> states that you should "always create a new commit object, even if the merge could be performed with a fast-forward"
+                  <div><kbd>git checkout develop</kbd></div>
+                  <div><kbd>git merge --no-ff my-feature</kbd></div>
+                  Then the feature branch is deleted and the local develop branch is pushed to the origin develop branch:
+                  <div><kbd>git branch -d my-feature</kbd></div>
+                  <div><kbd>git push origin develop</kbd></div>
+
+                  <h3 class="custom-h3">The release branch</h3>
+
+                  <p>
+                    "git-flow was designed for the kinds of projects where there were multiple versions released in production, such as software installed on customer sites. Having multiple live versions is, of course, one of the main triggers for using release branches."
+                    <a target="_blank" href="https://martinfowler.com/articles/branching-patterns.html#Git-flow">source</a>
+                  </p>
+
+                  <p>
+                    The official documentation is available
+                    <a
+                      target="_blank"
+                      href="https://nvie.com/posts/a-successful-git-branching-model/#release-branches"
+                    >
+                      here
+                    </a>
+                  </p>
+
+                    When the develop branch becomes "release ready", we create a release branch and choose a version number:
+                  <div><kbd>git checkout -b release-1.2 develop</kbd></div>
+                  <div><kbd>./bump-version.sh 1.2</kbd></div>
+                  <div><kbd>git commit -a -m "Bumped version number to 1.2"</kbd></div>
+                  <p>
+                    At this time we can apply bugfixes.
+                  </p>
+                  <p>
+                    Then you should publish the release branch to allow release commits by other developers:
+                    <div><kbd>git push origin release-1.2</kbd></div>
+                  </p>
+                    "When the state of the release branch is ready to become a real release:
+                    <ul>
+                      <li>
+                        First, the release branch is merged into master, since every commit on master is a new release by definition
+                        <div><kbd>git checkout master</kbd></div>
+                        <div><kbd>git merge --no-ff release-1.2</kbd></div>
+                      </li>
+                      <li>
+                        Next, that commit on master must be tagged for easy future reference to this historical version
+                        <div><kbd>git tag -a 1.2</kbd></div>
+                      </li>
+                      <li>
+                        Finally, the changes made on the release branch need to be merged back into develop, so that future releases also contain these bug fixes."
+                        <div><kbd>git checkout develop</kbd></div>
+                        <div><kbd>git merge --no-ff release-1.2</kbd></div>
+                        And the release branch is deleted:
+                        <div><kbd>git branch -d release-1.2</kbd></div>
+                      </li>
+                    </ul>
+                    
+                    <h3 class="custom-h3">Where is the release performed?</h3>
+
+                    <a
+                      target="_blank"
+                      href="https://nvie.com/posts/a-successful-git-branching-model/#the-main-branches"
+                    >
+                      From the documentation
+                    </a>:
+                    "We consider origin/master to be the main branch where the source code of HEAD always reflects a production-ready state.
+                    [...]
+                    Therefore, each time when changes are merged back into master, this is a new production release by definition. We tend to be very strict at this, so that theoretically, we could use a Git hook script to automatically build and roll-out our software to our production servers everytime there was a commit on master."
+                    <p>
+                      The tags are created on the master branch. And <b>the releases are performed from the master branch</b>
+                    </p>
                 </div>
               </div>
             </div>
@@ -840,6 +1473,59 @@
           </div>
         </div><!-- col-12 -->
       </div><!-- row -->    
+
+      <div class="row">
+        <div class="col-12">
+          <h2 class="custom-h2">The release process</h2>
+          The various git workflows do not advise on the whole release process.
+          Each workflow defines on what kind of branch the releases should be done.
+          <div>
+            To learn more about the release process, you may take a look at:
+            <ul>
+              <li>
+                  <a
+                    target="_blank"
+                    href="https://maven.apache.org/maven-release/maven-release-plugin/index.html"
+                  >
+                    The maven-release-plugin</a> for Java
+              </li>
+              <li>
+                  <a
+                    target="_blank"
+                    href="https://github.com/semantic-release/semantic-release"
+                  >
+                    The semantic-release package
+                  </a> for Javascript
+              </li>
+            </ul>
+          </div>
+        </div><!-- col-12 -->
+      </div><!-- row -->  
+
+      <div class="row">
+        <div class="col-12">
+          <h2 class="custom-h2">git-flow Git extensions</h2>
+          You may consider using this "collection of Git extensions to provide high-level repository operations" for git-flow.
+          See <a
+            target="_blank"
+            href="https://github.com/nvie/gitflow"
+          >
+          https://github.com/nvie/gitflow
+          </a>|
+          <a
+            target="_blank"
+            href="https://danielkummer.github.io/git-flow-cheatsheet/"
+          >
+          https://danielkummer.github.io/git-flow-cheatsheet/
+          </a>|
+          <a
+            target="_blank"
+            href="https://gist.github.com/JamesMGreene/cdd0ac49f90c987e45ac"
+          >
+          https://gist.github.com/JamesMGreene/cdd0ac49f90c987e45ac
+          </a>
+        </div><!-- col-12 -->
+      </div><!-- row --> 
 
       <div class="row">
         <div class="col-12">
