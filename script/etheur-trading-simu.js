@@ -20,8 +20,7 @@ var x = d3.scaleTime().range([0, width]),
   y2 = d3.scaleLinear().range([height2, 0]);
 
 var xAxis = d3.axisBottom(x),
-  yAxisLeft = d3.axisLeft(y)
-    .tickFormat(d => (d + "€")),
+  yAxisLeft = d3.axisLeft(y).tickFormat((d) => d + "€"),
   yAxisRight = d3.axisRight(yBalance),
   xAxis2 = d3.axisBottom(x2);
 
@@ -49,14 +48,14 @@ var zoom = d3
 var closingPriceLine1 = d3
   .line()
   .curve(d3.curveMonotoneX)
-  .x(d => x(d.date))
-  .y(d => y(d.closingPrice));
+  .x((d) => x(d.date))
+  .y((d) => y(d.closingPrice));
 
 var closingPriceLine2 = d3
   .line()
   .curve(d3.curveMonotoneX)
-  .x(d =>  x2(d.date))
-  .y(d => y2(d.closingPrice));
+  .x((d) => x2(d.date))
+  .y((d) => y2(d.closingPrice));
 
 svg
   .append("defs")
@@ -79,54 +78,63 @@ var context = svg
 var identity = d3.zoomIdentity;
 
 /* legends */
-svg.append("line")
-  .attr("x1",5)
+svg
+  .append("line")
+  .attr("x1", 5)
   .attr("y1", legendOffset)
-  .attr("x2",25)
+  .attr("x2", 25)
   .attr("y2", legendOffset)
   .style("stroke-width", 4)
   .style("stroke", "steelblue")
   .style("fill", "none");
-svg.append("text")
-    .attr("x", 30)
-    .attr("y", legendOffset + 5)
-    .text("ETHEUR market price")
-    .style("font-size", "1rem");
-let signalsLegendG = svg.append("g")
-  .attr("transform", `translate(${width/2}, ${legendOffset})`);
-signalsLegendG.append("circle")
-    .attr("cx", 0)
-    .attr("cy", 0)
-    .attr("r", 6)
-    .style("fill", "green");
-signalsLegendG.append("text")
-    .attr("x", 15)
-    .attr("y", 5)
-    .text("Buy Signal")
-    .style("font-size", "1rem");
-signalsLegendG.append("circle")
-    .attr("cx", 0)
-    .attr("cy", 25)
-    .attr("r", 6)
-    .style("fill", "red");
-signalsLegendG.append("text")
-    .attr("x", 15)
-    .attr("y", 30)
-    .text("Sell Signal")
-    .style("font-size", "1rem");
-svg.append("line")
-  .attr("x1",width - 105)
+svg
+  .append("text")
+  .attr("x", 30)
+  .attr("y", legendOffset + 5)
+  .text("ETHEUR market price")
+  .style("font-size", "1rem");
+let signalsLegendG = svg
+  .append("g")
+  .attr("transform", `translate(${width / 2}, ${legendOffset})`);
+signalsLegendG
+  .append("circle")
+  .attr("cx", 0)
+  .attr("cy", 0)
+  .attr("r", 6)
+  .style("fill", "green");
+signalsLegendG
+  .append("text")
+  .attr("x", 15)
+  .attr("y", 5)
+  .text("Buy Signal")
+  .style("font-size", "1rem");
+signalsLegendG
+  .append("circle")
+  .attr("cx", 0)
+  .attr("cy", 25)
+  .attr("r", 6)
+  .style("fill", "red");
+signalsLegendG
+  .append("text")
+  .attr("x", 15)
+  .attr("y", 30)
+  .text("Sell Signal")
+  .style("font-size", "1rem");
+svg
+  .append("line")
+  .attr("x1", width - 105)
   .attr("y1", legendOffset)
-  .attr("x2",width - 85)
+  .attr("x2", width - 85)
   .attr("y2", legendOffset)
   .style("stroke-width", 4)
   .style("stroke", "#cfb53b")
   .style("fill", "none");
-svg.append("text")
-    .attr("x", width - 80)
-    .attr("y", legendOffset + 5)
-    .text("Balance (base 100)")
-    .style("font-size", "1rem");
+svg
+  .append("text")
+  .attr("x", width - 80)
+  .attr("y", legendOffset + 5)
+  .text("Balance (base 100)")
+  .style("font-size", "1rem");
 
 const yAxisG = focus.append("g").attr("class", "axis axis--y");
 
@@ -137,74 +145,74 @@ const yAxisRightG = focus
 
 const yMargin = 30;
 
-d3.json("https://macd-definition.herokuapp.com/macd/?macdDefinitionId=1").then(function (
-  json
-) {
-  /* skip the first incomplete items (before 12+26+9) */
-  json = json.filter((item) => item.macdValue && item.signalValue);
+d3.json("https://macd-definition.herokuapp.com/macd/?macdDefinitionId=1").then(
+  function (json) {
+    /* skip the first incomplete items (before 12+26+9) */
+    json = json.filter((item) => item.macdValue && item.signalValue);
 
-  let data = json.map((item) => ({
-    ...item,
-    date: new Date(item.timeEpochTimestamp * 1000),
-  }));
+    let data = json.map((item) => ({
+      ...item,
+      date: new Date(item.timeEpochTimestamp * 1000),
+    }));
 
-  zoom.on("zoom", () => zoomed(data));
+    zoom.on("zoom", () => zoomed(data));
 
-  x.domain(
-    d3.extent(data, function (d) {
-      return d.date;
-    })
-  );
-  let yMin = d3.min(data, (d) => d.closingPrice) - yMargin;
-  let yMax = d3.max(data, (d) => d.closingPrice) + yMargin;
-  y.domain([yMin, yMax]);
-  yBalance.domain([0, 100]);
-  x2.domain(x.domain());
-  y2.domain(y.domain());
+    x.domain(
+      d3.extent(data, function (d) {
+        return d.date;
+      })
+    );
+    let yMin = d3.min(data, (d) => d.closingPrice) - yMargin;
+    let yMax = d3.max(data, (d) => d.closingPrice) + yMargin;
+    y.domain([yMin, yMax]);
+    yBalance.domain([0, 100]);
+    x2.domain(x.domain());
+    y2.domain(y.domain());
 
-  focus
-    .append("path")
-    .datum(data)
-    .attr("class", "simu-line")
-    .attr("d", closingPriceLine1);
+    focus
+      .append("path")
+      .datum(data)
+      .attr("class", "simu-line")
+      .attr("d", closingPriceLine1);
 
-  focus
-    .append("g")
-    .attr("class", "axis axis--x")
-    .attr("transform", "translate(0," + height + ")")
-    .call(xAxis);
+    focus
+      .append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
 
-  yAxisG.call(yAxisLeft);
-  yAxisRightG.call(yAxisRight);
+    yAxisG.call(yAxisLeft);
+    yAxisRightG.call(yAxisRight);
 
-  context
-    .append("path")
-    .datum(data)
-    .attr("class", "simu-line")
-    .attr("d", closingPriceLine2);
+    context
+      .append("path")
+      .datum(data)
+      .attr("class", "simu-line")
+      .attr("d", closingPriceLine2);
 
-  context
-    .append("g")
-    .attr("class", "axis axis--x")
-    .attr("transform", "translate(0," + height2 + ")")
-    .call(xAxis2);
+    context
+      .append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height2 + ")")
+      .call(xAxis2);
 
-  context
-    .append("g")
-    .attr("class", "brush")
-    .call(brush)
-    .call(brush.move, x.range());
+    context
+      .append("g")
+      .attr("class", "brush")
+      .call(brush)
+      .call(brush.move, x.range());
 
-  svg
-    .append("rect")
-    .attr("class", "simu-zoom")
-    .attr("width", width)
-    .attr("height", height)
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-    .call(zoom);
+    svg
+      .append("rect")
+      .attr("class", "simu-zoom")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+      .call(zoom);
 
-  updateGraphs([width / 2, width]);
-});
+    updateGraphs([width / 2, width]);
+  }
+);
 
 /*
 updates the scale using d3.zoomIdentity, it must do this as it needs to update the 
@@ -233,6 +241,36 @@ function updateGraphs(s) {
       zoom.transform,
       d3.zoomIdentity.scale(width / (s[1] - s[0])).translate(-s[0], 0)
     );
+}
+
+const highLightTradeEvent = domElement => {
+  
+  /* update graph */
+  d3.selectAll('circle.trading-event')
+    .remove();
+  focus
+    .append("circle")
+    .attr("id", domElement.id)
+    .attr("class", "trading-event")
+    .attr("cx", () => domElement.dataset.x)
+    .attr("cy", () => domElement.dataset.y)
+    .attr("r", 10)
+    .style("fill", domElement.dataset.color)
+    .style("fill-opacity", 0.4)
+    .style("stroke", domElement.dataset.color);
+
+    /* update table element */
+    document.querySelectorAll('#detail-list > li').forEach(elt => {
+      elt.style.border = 'none';
+    });
+    domElement.style.border = `1px solid ${domElement.dataset.color}`; 
+}
+
+const tradeEventClickHandler = event => {
+
+  const source = event.target;
+
+  highLightTradeEvent(source);
 }
 
 /*
@@ -277,11 +315,12 @@ function zoomed(json) {
 
   var balanceLine = d3
     .line()
-    .x(d => x(d.date))
-    .y(d => yBalance(d.trading.balance));
-  var baselineBalanceLine = d3.line()
-    .x(d => x(d.date))
-    .y(d => yBalance(initialBalance));
+    .x((d) => x(d.date))
+    .y((d) => yBalance(d.trading.balance));
+  var baselineBalanceLine = d3
+    .line()
+    .x((d) => x(d.date))
+    .y((d) => yBalance(initialBalance));
 
   focus.selectAll(".simu-balance-line").remove();
   focus
@@ -293,7 +332,7 @@ function zoomed(json) {
     .append("path")
     .datum(visibleData)
     .attr("class", "simu-balance-line")
-    .style("stroke-dasharray", ("3, 3")) 
+    .style("stroke-dasharray", "3, 3")
     .attr("d", baselineBalanceLine);
 
   let botPerformance = formatPerf(performance(initialBalance, totalBalance));
@@ -310,25 +349,55 @@ function zoomed(json) {
 
   context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
 
-  focus.selectAll("circle")
-    .remove();
-  /* trading events */
-  for(item of visibleData) {
-    if(item.trading && item.trading.event) {
-      console.log(item.date, item.closingPrice);
-      console.log(item.trading);
+  focus.selectAll("circle").remove();
 
+  const listRef = document.getElementById("detail-list");
+  listRef.innerHTML = "";
+  let visited = false;
+  /* trading events */
+  for (item of visibleData) {
+    if (item.trading && item.trading.event) {
+      /* detail table */
+      let message = formatDate(item.date) + ": ";
+      if (item.trading.event === "BUY_SIGNAL") {
+        message += `Buying ${item.trading.cryptoBalance.toFixed(2)} ETH `;
+        message += `for ${item.closingPrice.toFixed(2)} € `;
+      } else {
+        message += `Selling ${item.trading.quantitySold.toFixed(2)} ETH `;
+        message += `for ${item.closingPrice.toFixed(2)} € `;
+      }
+      message += `(payed fees ${item.trading.payedFees.toFixed(2)} €) `;
+      message += `. Balance: ${item.trading.balance.toFixed(2)} € `;
+      let li = document.createElement("li");
+      const id = `${formatDate(item.date)}_${item.trading.event}`;
+      li.id = id;
+      li.dataset.x = x(item.date);
+      li.dataset.y = y(item.closingPrice);
       let color = "red";
-      if(item.trading.event === 'BUY_SIGNAL') {
+      if (item.trading.event === "BUY_SIGNAL") {
         color = "green";
       }
+      li.dataset.color = color;
+      li.innerHTML = message;
 
-      focus.append("circle")
+      li.addEventListener('click', 
+        tradeEventClickHandler, 
+        false);
+      listRef.appendChild(li);
+
+      /* first one is highlighted */
+      if(!visited) {
+        highLightTradeEvent(li);
+        visited = true;
+      }
+
+      /* dots on the graph */
+      focus
+        .append("circle")
         .attr("cx", () => x(item.date))
         .attr("cy", () => y(item.closingPrice))
         .attr("r", 5)
         .style("fill", color);
-
     }
   }
 }

@@ -31,13 +31,17 @@ function computeMacdSimulation(initialBalance, fees, data) {
       if (newIsEur) {
         /* case 2 : state change, SELL SIGNAL */
         let payedFees = cryptoBalance * item.closingPrice * fees;
+        item.trading.payedFees = payedFees;
         eurBalance = cryptoBalance * item.closingPrice - payedFees;
         totalBalance = eurBalance;
+        item.trading.quantitySold = cryptoBalance;
         cryptoBalance = 0;
         item.trading.event = 'SELL_SIGNAL';
       } else {
         /* case 3: state change, BUY SIGNAL */
         let payedFees = eurBalance * fees;
+        item.trading.payedFees = payedFees;
+        item.trading.amountSpent = eurBalance;
         eurBalance = eurBalance - payedFees;
         totalBalance = eurBalance;
         cryptoBalance = eurBalance / item.closingPrice;

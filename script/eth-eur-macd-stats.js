@@ -22,6 +22,7 @@ fetch("https://macd-definition.herokuapp.com/macd/?macdDefinitionId=1")
     let sumBeatMarket = 0;
     let sumMakeProfit = 0;
     const tableRef = document.getElementById("results-tbody");
+    tableRef.innerHTML = '';
     let i;
     for(i = 0; i < macdData.length - 365; i++) {
         let simulationData = macdData.slice(i, i + 365);
