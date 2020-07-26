@@ -24,6 +24,11 @@ function computeMacdSimulation(initialBalance, fees, data) {
       item.trading = {};
       /* case 1 : same state */
       if (newIsEur === isEur) {
+        /* if we hold crypto: */
+        if(!isEur) {
+          eurBalance = cryptoBalance * item.closingPrice;
+          totalBalance = eurBalance;
+        }
         item.trading.balance = totalBalance;
         continue;
       } 

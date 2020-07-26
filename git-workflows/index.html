@@ -610,17 +610,22 @@
                     Sourcetree does not display any fork on the graph, because the
                     branches did not diverge.
                   </p>
-                  I first switch to the local master branch:
-                  <div>
-                    <kbd>git checkout master</kbd>
+
+                  <div class="cmd-snippet">
+                    I first switch to the local master branch:
+                    <div>
+                      <kbd>git checkout master</kbd>
+                    </div>
                   </div>
-                  Then merge using the
-                  <a target="_blank" href="https://git-scm.com/docs/git-merge">
-                    default fast forward
-                  </a>
-                  behavior:
-                  <div>
-                    <kbd>git merge my-feature</kbd>
+                  <div class="cmd-snippet">
+                    Then merge using the
+                    <a target="_blank" href="https://git-scm.com/docs/git-merge">
+                      default fast forward
+                    </a>
+                    behavior:
+                    <div>
+                      <kbd>git merge my-feature</kbd>
+                    </div>
                   </div>
                   The result is the following graph:
                   <div>
@@ -696,11 +701,7 @@
                   <div class="cmd-snippet">
                     Then I rebase to change the root of my-feature branch from the old master to the tip of the latest master.
                     <div>
-                      <kbd>git checkout my-feature</kbd>
-                    </div>
-                  </div>
-                  <div class="cmd-snippet">
-                    <div>
+                      <kbd>git checkout my-feature</kbd><br>
                       <kbd>git rebase master</kbd>
                     </div>
                     returns the following error:
@@ -734,15 +735,22 @@
 
 
                   Git invites me to manually resolve the conflict:
-                  <pre>
-  something else
-  A</pre>
-                  ... and continue the rebase:
-                  <div>
-                    <kbd>git add README.md</kbd>
+                  <div class="cmd-snippet">
+                    Git invites me to manually resolve the conflict:
+                      <code>
+                        something else<br>
+                        A
+                      </code>
+                  </div>
+
+                  <div class="cmd-snippet">
+                    ... and continue the rebase:
+                    <div>
+                      <kbd>git add README.md</kbd><br>
+                      <kbd>git rebase --continue</kbd>
+                    </div>
                   </div>
                   <div>
-                    <kbd>git rebase --continue</kbd>
                   </div>
                   <p class="custom-p">
                     (More info
@@ -774,19 +782,20 @@
                     And then replayed the commits on my branch on top of that "something else" commit.
                   </p>
                   
-                  As previously I still need to merge my-feature into master:
-                  <div>
-                    <kbd>git checkout master</kbd>
+                  <div class="cmd-snippet">
+                    As previously I still need to merge my-feature into master:
+                    <div>
+                      <kbd>git checkout master</kbd><br>
+                      <kbd>git merge my-feature</kbd>
+                    </div>
+                    The fast-forward merge is executed without error:
+                      <code>
+                        Updating 61a6308..bbb38da<br>
+                        Fast-forward<br>
+                        README.md | 1 +<br>
+                        1 file changed, 1 insertion(+)
+                      </code>
                   </div>
-                  <div>
-                    <kbd>git merge my-feature</kbd>
-                  </div>
-                  The fast-forward merge is executed without error:
-                  <pre>
-  Updating 61a6308..bbb38da
-  Fast-forward
-  README.md | 1 +
-  1 file changed, 1 insertion(+)</pre>
                   The result is the following graph:
                   <div>
                     <img
@@ -1332,6 +1341,16 @@
       <div class="row">
         <div class="col-12">
           <h2 class="custom-h2">Fixing a bug in production</h2>
+          Whatever workflow you choose, you should follow the 
+          <a
+            target="_blank"
+            href="https://semver.org/"
+          >
+            semantic versioning
+          </a>
+          specification to increment the product version number.
+          In case of a bug fix you will usually increment the PATCH number.
+          (I can't think of a bug fix thats affects the API)
 
           <div class="accordion" id="fbp">
             <div class="card">
